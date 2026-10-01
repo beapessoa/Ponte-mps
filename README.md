@@ -18,6 +18,10 @@ src/
 
 A camada `fronteira` (telas/API) será adicionada quando a stack de interface for definida.
 
+## Especificação
+
+O contrato de requisitos (histórias de usuário, regras de negócio, casos de uso e diagramas) está em [`docs/specs/`](docs/specs/README.md). Leia-o antes de implementar qualquer funcionalidade.
+
 ## Rodando o projeto
 
 ```bash
