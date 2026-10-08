@@ -12,7 +12,7 @@ Organização por camadas (fronteira, controle, entidade), conforme o diagrama d
 
 ```
 src/
-  entidades/   # modelos de domínio e persistência (RAM, nesta fase)
+  entidades/   # modelos de domínio e persistência (RAM e arquivo binário)
   controle/    # orquestram casos de uso, chamando as entidades
 ```
 
