@@ -7,6 +7,7 @@ Contrato de requisitos do sistema. Leia este diretório antes de implementar qua
 - [requisitos.md](./requisitos.md) — requisitos funcionais (US01–US10), requisitos não funcionais (RNF01–RNF04) e regras de negócio (RN01–RN10).
 - [casos-de-uso.md](./casos-de-uso.md) — descrição completa dos sete casos de uso (UC01–UC07): atores, pré-condições, fluxo principal, fluxos alternativos e pós-condições.
 - [gerenciamento-usuarios.md](./gerenciamento-usuarios.md) — especificação do módulo de Gerenciamento de Usuários (cadastro e listagem), escopo implementado na Sprint 1, com os diagramas de casos de uso e de classes de análise do módulo.
+- [tratamento-erros-persistencia.md](./tratamento-erros-persistencia.md) — Laboratório 2: validação de login/senha por exceções e os dois mecanismos de persistência (RAM e arquivo binário), com o diagrama de classes atualizado.
 - [diagramas/](./diagramas/) — diagramas de casos de uso e de classes de análise do módulo de Gerenciamento de Usuários.
 - [anexos/](./anexos/) — documento de entrega final completo (Especificação de Requisitos de Software, UFPB), fonte de todo o conteúdo acima.
 

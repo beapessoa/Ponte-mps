@@ -37,7 +37,9 @@ Nesta sprint, a persistência é uma coleção em memória RAM (`RepositorioUsua
 | `Usuario` | [`src/entidades/Usuario.ts`](../../src/entidades/Usuario.ts) |
 | `ONG` | [`src/entidades/Ong.ts`](../../src/entidades/Ong.ts) |
 | `Voluntario` | [`src/entidades/Voluntario.ts`](../../src/entidades/Voluntario.ts) |
-| `RepositorioUsuarios` | [`src/entidades/RepositorioUsuarios.ts`](../../src/entidades/RepositorioUsuarios.ts) |
+| `RepositorioUsuarios` | [`src/entidades/RepositorioUsuarios.ts`](../../src/entidades/RepositorioUsuarios.ts) — interface, ver nota abaixo |
 | `ControladorCadastro` | [`src/controle/ControladorCadastro.ts`](../../src/controle/ControladorCadastro.ts) |
 | `ControladorListagem` | [`src/controle/ControladorListagem.ts`](../../src/controle/ControladorListagem.ts) |
 | `TelaCadastroONG`, `TelaCadastroVoluntario`, `TelaListaUsuarios` | Pendente — camada `fronteira` aguardando definição da stack de UI. |
+
+> **Atualização (Laboratório 2):** `Usuario` ganhou credenciais (`login`/`senha`) validadas por exceções próprias, e `RepositorioUsuarios` virou uma interface com duas implementações (RAM e arquivo binário). Ver [tratamento-erros-persistencia.md](./tratamento-erros-persistencia.md) para o diagrama atualizado e os detalhes.
