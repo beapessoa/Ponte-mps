@@ -57,6 +57,35 @@ O sistema DEVE permitir consultar todos os usuários (ONGs e voluntários) já c
 - **WHEN** alguém solicita a listagem de usuários
 - **THEN** o sistema retorna uma lista vazia
 
+### Requirement: RF13 — Atualizar Usuário
+O sistema DEVE permitir que uma ONG atualize seu próprio perfil (nome, login, senha, área de atuação, descrição) e que um voluntário atualize o seu (nome, login, senha, habilidades, disponibilidade, localização), recusando a atualização se o usuário não existir ou se o ID informado pertencer a um usuário de outro tipo.
+
+**Prioridade:** Importante
+**Casos de uso:** UC11
+**Status:** Implementado na Sprint 3 — `ControladorCadastro.atualizarONG()` / `atualizarVoluntario()`
+
+#### Scenario: Atualização válida de ONG
+- **GIVEN** uma ONG cadastrada
+- **WHEN** ela atualiza sua descrição
+- **THEN** o sistema armazena a nova descrição, mantendo o mesmo ID
+
+#### Scenario: Atualização com ID de outro tipo de usuário
+- **GIVEN** o ID informado pertence a um voluntário
+- **WHEN** alguém tenta atualizá-lo através de `atualizarONG`
+- **THEN** o sistema recusa a atualização
+
+### Requirement: RF14 — Remover Usuário
+O sistema DEVE permitir remover um usuário (ONG ou voluntário) cadastrado.
+
+**Prioridade:** Importante
+**Casos de uso:** UC12
+**Status:** Implementado na Sprint 3 — `ControladorCadastro.removerUsuario()`
+
+#### Scenario: Remoção válida
+- **GIVEN** um usuário cadastrado
+- **WHEN** ele é removido
+- **THEN** o usuário deixa de aparecer na listagem de usuários
+
 ### Requirement: Credenciais de acesso
 O sistema DEVE validar login (não vazio, no máximo 12 caracteres, sem números) e senha (política padrão do AWS IAM: 8–128 caracteres, ao menos 3 dos 4 tipos de caractere, diferente do login) no cadastro de qualquer usuário, lançando `LoginInvalidoError` ou `SenhaInvalidaError` em caso de violação.
 
