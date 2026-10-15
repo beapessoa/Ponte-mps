@@ -1,6 +1,6 @@
 # Casos de uso
 
-> Diagrama com **todos** os casos de uso do sistema e descrição detalhada de cada um. Só UC01, UC02 e UC08 (Gerenciamento de Usuários) estão implementados — os demais são especificados para orientar o desenvolvimento das próximas sprints (ver [`docs/00-entregas.md`](../00-entregas.md)).
+> Diagrama com **todos** os casos de uso do sistema e descrição detalhada de cada um. UC01, UC02, UC08 (Sprint 1/2, Gerenciamento de Usuários) e UC09–UC12 (Sprint 3, CRUD de Vaga e de Usuário) estão implementados — os demais são especificados para orientar o desenvolvimento das próximas sprints (ver [`docs/00-entregas.md`](../00-entregas.md)).
 
 ## Diagrama de casos de uso
 
@@ -18,6 +18,10 @@ flowchart LR
         UC06(["UC06 Gerenciar Inscrições"])
         UC07(["UC07 Avaliar Mutuamente"])
         UC08(["UC08 Listar Usuários Cadastrados"])
+        UC09(["UC09 Atualizar Vaga"])
+        UC10(["UC10 Remover Vaga"])
+        UC11(["UC11 Atualizar Usuário"])
+        UC12(["UC12 Remover Usuário"])
     end
 
     ONG --- UC01
@@ -25,11 +29,17 @@ flowchart LR
     ONG --- UC06
     ONG --- UC07
     ONG --- UC08
+    ONG --- UC09
+    ONG --- UC10
     Voluntario --- UC02
     Voluntario --- UC04
     Voluntario --- UC05
     Voluntario --- UC07
     Voluntario --- UC08
+    ONG --- UC11
+    Voluntario --- UC11
+    ONG --- UC12
+    Voluntario --- UC12
 ```
 
 > UC08 é um ID novo, atribuído agora para "Listar Usuários Cadastrados" (já implementada, mas sem ID formal até esta migração). A partir daqui, IDs de caso de uso não são renumerados nem reaproveitados.
@@ -46,5 +56,9 @@ flowchart LR
 | UC06 Gerenciar Inscrições | ONG | RF06, RF08, NF-USA-01, NF-CON-01 | Não implementado | [UC06](UC06-gerenciar-inscricoes.md) |
 | UC07 Avaliar Mutuamente | ONG, Voluntário | RF07, RF09, RF10, NF-SEG-01, NF-CON-01 | Não implementado | [UC07](UC07-avaliar-mutuamente.md) |
 | UC08 Listar Usuários Cadastrados | ONG, Voluntário | — | Implementado (Sprint 1) | [`docs/specs/gerenciamento-usuarios.md`](../specs/gerenciamento-usuarios.md) |
+| UC09 Atualizar Vaga | ONG | RF11 | Implementado (Sprint 3) | [UC09](UC09-atualizar-vaga.md) |
+| UC10 Remover Vaga | ONG | RF12 | Implementado (Sprint 3) | [UC10](UC10-remover-vaga.md) |
+| UC11 Atualizar Usuário | ONG, Voluntário | RF13 | Implementado (Sprint 3) | [UC11](UC11-atualizar-usuario.md) |
+| UC12 Remover Usuário | ONG, Voluntário | RF14 | Implementado (Sprint 3) | [UC12](UC12-remover-usuario.md) |
 
 Imagem original (anexo, só UC01/UC02/UC08): [`docs/specs/anexos/diagrama-casos-de-uso-gerenciamento-usuarios.png`](../specs/anexos/diagrama-casos-de-uso-gerenciamento-usuarios.png).
