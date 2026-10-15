@@ -8,7 +8,6 @@ Contrato de requisitos do sistema. Leia este diretório antes de implementar qua
 
 > Os requisitos funcionais e não funcionais (antes em `requisitos.md`) estão em [`openspec/specs/`](../../openspec/specs/).
 
-- [casos-de-uso.md](./casos-de-uso.md) — descrição completa dos sete casos de uso (UC01–UC07): atores, pré-condições, fluxo principal, fluxos alternativos e pós-condições.
 - [gerenciamento-usuarios.md](./gerenciamento-usuarios.md) — especificação do módulo de Gerenciamento de Usuários (cadastro e listagem), escopo implementado na Sprint 1, com os diagramas de casos de uso e de classes de análise do módulo.
 - [tratamento-erros-persistencia.md](./tratamento-erros-persistencia.md) — Laboratório 2: validação de login/senha por exceções e os dois mecanismos de persistência (RAM e arquivo binário), com o diagrama de classes atualizado.
 - [anexos/](./anexos/) — imagens originais (PNG) dos diagramas de casos de uso e de classes de análise do módulo de Gerenciamento de Usuários; as versões atuais (Mermaid) estão em [`docs/04-casos-de-uso/`](../04-casos-de-uso/) e [`docs/05-analise.md`](../05-analise.md).

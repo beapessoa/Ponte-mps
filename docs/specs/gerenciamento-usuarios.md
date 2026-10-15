@@ -1,6 +1,6 @@
 # Módulo: Gerenciamento de Usuários
 
-Escopo da Sprint 1. Cobre o cadastro e a listagem dos dois tipos de usuário do sistema (ONG e Voluntário), correspondendo a um subconjunto de [UC01 e UC02](./casos-de-uso.md) focado nos casos de uso de ADIÇÃO e LISTAGEM de usuários.
+Escopo da Sprint 1. Cobre o cadastro e a listagem dos dois tipos de usuário do sistema (ONG e Voluntário), correspondendo a [UC01, UC02 e UC08](../04-casos-de-uso/README.md) — os casos de uso de ADIÇÃO e LISTAGEM de usuários.
 
 ## Diagrama de Casos de Uso
 

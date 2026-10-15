@@ -22,5 +22,3 @@
 | **Requisito não funcional (RNF)** | Restrição ou atributo de qualidade do sistema (usabilidade, desempenho, segurança etc.). | requisito de qualidade | NF-SEG-01 — Privacidade e Proteção de Dados |
 | **Stakeholder** | Parte interessada no sistema (ONGs, voluntários e equipe de desenvolvimento) cujas necessidades influenciam os requisitos. | interessado, parte envolvida | — |
 | **Voluntário** | Pessoa física cadastrada que busca, se inscreve e participa de ações voluntárias, sendo avaliada e acumulando histórico. | usuário, candidato | João, Rafael |
-
-> **Nota de consistência:** [`docs/specs/casos-de-uso.md`](specs/casos-de-uso.md) ainda usa "candidatura" em alguns pontos (UC05, UC06) como sinônimo de "inscrição". Ajustar nessa migração ou na próxima revisão dos casos de uso.

@@ -1,23 +1,34 @@
 # Casos de uso
 
-> Diagrama com os casos de uso do módulo de **Gerenciamento de Usuários** (já implementado). O diagrama com **todos** os casos de uso do sistema (UC01–UC10) e a descrição detalhada dos 3 mais importantes são itens da Entrega 2 (30/10/2026, ver `00-entregas.md` do modelo da disciplina) — as descrições completas das 7 histórias já elicitadas estão, por ora, em [`docs/specs/casos-de-uso.md`](../specs/casos-de-uso.md).
+> Diagrama com **todos** os casos de uso do sistema e descrição detalhada de cada um. Só UC01, UC02 e UC08 (Gerenciamento de Usuários) estão implementados — os demais são especificados para orientar o desenvolvimento das próximas sprints (ver [`docs/00-entregas.md`](../00-entregas.md)).
 
-## Diagrama de casos de uso — Gerenciamento de Usuários
+## Diagrama de casos de uso
 
 ```mermaid
 flowchart LR
     ONG(("ONG"))
     Voluntario(("Voluntário"))
 
-    subgraph GU["Gerenciamento de Usuários"]
+    subgraph Ponte["Ponte"]
         UC01(["UC01 Cadastrar ONG"])
         UC02(["UC02 Cadastrar Voluntário"])
+        UC03(["UC03 Publicar Vaga"])
+        UC04(["UC04 Buscar/Receber Sugestão (Match)"])
+        UC05(["UC05 Inscrever-se em Vaga"])
+        UC06(["UC06 Gerenciar Inscrições"])
+        UC07(["UC07 Avaliar Mutuamente"])
         UC08(["UC08 Listar Usuários Cadastrados"])
     end
 
     ONG --- UC01
+    ONG --- UC03
+    ONG --- UC06
+    ONG --- UC07
     ONG --- UC08
     Voluntario --- UC02
+    Voluntario --- UC04
+    Voluntario --- UC05
+    Voluntario --- UC07
     Voluntario --- UC08
 ```
 
@@ -25,10 +36,15 @@ flowchart LR
 
 ## Índice e rastreabilidade
 
-| Caso de uso | Ator principal | Requisitos | Descrição detalhada |
-|---|---|---|---|
-| UC01 Cadastrar ONG | ONG | RF01 | [`docs/specs/casos-de-uso.md`](../specs/casos-de-uso.md#uc01-cadastrar-ong) |
-| UC02 Cadastrar Voluntário | Voluntário | RF02 | [`docs/specs/casos-de-uso.md`](../specs/casos-de-uso.md#uc02-cadastrar-voluntário) |
-| UC08 Listar Usuários Cadastrados | ONG, Voluntário | — | [`docs/specs/gerenciamento-usuarios.md`](../specs/gerenciamento-usuarios.md) |
+| Caso de uso | Ator principal | Requisitos | Status | Descrição detalhada |
+|---|---|---|---|---|
+| UC01 Cadastrar ONG | ONG | RF01, NF-USA-01, NF-SEG-01 | Implementado (Sprint 1) | [UC01](UC01-cadastrar-ong.md) |
+| UC02 Cadastrar Voluntário | Voluntário | RF02, NF-USA-02, NF-SEG-01 | Implementado (Sprint 1) | [UC02](UC02-cadastrar-voluntario.md) |
+| UC03 Publicar Vaga | ONG | RF03, NF-USA-01 | Não implementado | [UC03](UC03-publicar-vaga.md) |
+| UC04 Buscar/Receber Sugestão (Match) | Voluntário | RF04, NF-USA-02, NF-DES-01 | Não implementado | [UC04](UC04-buscar-match.md) |
+| UC05 Inscrever-se em Vaga | Voluntário | RF05, NF-USA-02, NF-CON-01 | Não implementado | [UC05](UC05-inscrever-se-em-vaga.md) |
+| UC06 Gerenciar Inscrições | ONG | RF06, RF08, NF-USA-01, NF-CON-01 | Não implementado | [UC06](UC06-gerenciar-inscricoes.md) |
+| UC07 Avaliar Mutuamente | ONG, Voluntário | RF07, RF09, RF10, NF-SEG-01, NF-CON-01 | Não implementado | [UC07](UC07-avaliar-mutuamente.md) |
+| UC08 Listar Usuários Cadastrados | ONG, Voluntário | — | Implementado (Sprint 1) | [`docs/specs/gerenciamento-usuarios.md`](../specs/gerenciamento-usuarios.md) |
 
-Imagem original (anexo): [`docs/specs/anexos/diagrama-casos-de-uso-gerenciamento-usuarios.png`](../specs/anexos/diagrama-casos-de-uso-gerenciamento-usuarios.png).
+Imagem original (anexo, só UC01/UC02/UC08): [`docs/specs/anexos/diagrama-casos-de-uso-gerenciamento-usuarios.png`](../specs/anexos/diagrama-casos-de-uso-gerenciamento-usuarios.png).
