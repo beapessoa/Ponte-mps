@@ -37,7 +37,23 @@ describe('ControladorListagem', () => {
       'manhãs',
       'João Pessoa/PB',
     );
+    const { senha: _senhaOng, ...ongSemSenha } = ong;
+    const { senha: _senhaVoluntario, ...voluntarioSemSenha } = voluntario;
 
-    expect(controladorListagem.listarUsuarios()).toEqual([ong, voluntario]);
+    expect(controladorListagem.listarUsuarios()).toEqual([ongSemSenha, voluntarioSemSenha]);
+  });
+
+  it('nao_deve_incluir_senha_na_listagem', () => {
+    controladorCadastro.cadastrarONG(
+      'Amigos do Bairro',
+      'amigos',
+      SENHA_VALIDA,
+      'Saúde comunitária',
+      'Ações de saúde.',
+    );
+
+    const [resultado] = controladorListagem.listarUsuarios();
+
+    expect(resultado).not.toHaveProperty('senha');
   });
 });

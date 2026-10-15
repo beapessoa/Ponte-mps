@@ -14,3 +14,8 @@ export abstract class Usuario {
     this.senha = senha;
   }
 }
+
+export function omitirSenha<T extends Usuario>(usuario: T): Omit<T, 'senha'> {
+  const { senha: _senha, ...usuarioSemSenha } = usuario;
+  return usuarioSemSenha;
+}
