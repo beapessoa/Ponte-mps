@@ -30,3 +30,5 @@ flowchart LR
 | UC01 Cadastrar ONG | ONG | RF01 | [`docs/specs/casos-de-uso.md`](../specs/casos-de-uso.md#uc01-cadastrar-ong) |
 | UC02 Cadastrar Voluntário | Voluntário | RF02 | [`docs/specs/casos-de-uso.md`](../specs/casos-de-uso.md#uc02-cadastrar-voluntário) |
 | UC08 Listar Usuários Cadastrados | ONG, Voluntário | — | [`docs/specs/gerenciamento-usuarios.md`](../specs/gerenciamento-usuarios.md) |
+
+Imagem original (anexo): [`docs/specs/anexos/diagrama-casos-de-uso-gerenciamento-usuarios.png`](../specs/anexos/diagrama-casos-de-uso-gerenciamento-usuarios.png).

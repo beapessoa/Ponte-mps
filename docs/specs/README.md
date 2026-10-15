@@ -10,8 +10,7 @@ Contrato de requisitos do sistema. Leia este diretório antes de implementar qua
 - [casos-de-uso.md](./casos-de-uso.md) — descrição completa dos sete casos de uso (UC01–UC07): atores, pré-condições, fluxo principal, fluxos alternativos e pós-condições.
 - [gerenciamento-usuarios.md](./gerenciamento-usuarios.md) — especificação do módulo de Gerenciamento de Usuários (cadastro e listagem), escopo implementado na Sprint 1, com os diagramas de casos de uso e de classes de análise do módulo.
 - [tratamento-erros-persistencia.md](./tratamento-erros-persistencia.md) — Laboratório 2: validação de login/senha por exceções e os dois mecanismos de persistência (RAM e arquivo binário), com o diagrama de classes atualizado.
-- [diagramas/](./diagramas/) — diagramas de casos de uso e de classes de análise do módulo de Gerenciamento de Usuários.
-- [anexos/](./anexos/) — documento de entrega final completo (Especificação de Requisitos de Software, UFPB), fonte de todo o conteúdo acima.
+- [anexos/](./anexos/) — imagens originais (PNG) dos diagramas de casos de uso e de classes de análise do módulo de Gerenciamento de Usuários; as versões atuais (Mermaid) estão em [`docs/04-casos-de-uso/`](../04-casos-de-uso/) e [`docs/05-analise.md`](../05-analise.md).
 
 ## Sobre o produto
 
@@ -26,4 +25,4 @@ Personas de referência levantadas na elicitação: **Marta** (coordenadora de O
 
 ## Origem
 
-Documentos elicitados pela equipe (Beatriz Pessoa, Emyle Lucena, Maria Clara Dantas) via brainstorming, mapeamento de stakeholders, definição de personas, entrevistas e validação por Matriz CSD (Certezas, Suposições e Dúvidas) — ver Apêndices I–III do anexo em [anexos/ponte-documento-entrega-final.pdf](./anexos/ponte-documento-entrega-final.pdf).
+Documentos elicitados pela equipe (Beatriz Pessoa, Emyle Lucena, Maria Clara Dantas) via brainstorming, mapeamento de stakeholders, definição de personas, entrevistas e validação por Matriz CSD (Certezas, Suposições e Dúvidas) — ver [`docs/03-elicitacao.md`](../03-elicitacao.md).

@@ -1,6 +1,6 @@
 # Descrição dos Casos de Uso
 
-Fonte: [anexos/ponte-documento-entrega-final.pdf](./anexos/ponte-documento-entrega-final.pdf), seções 4 e 5.
+Fonte: elicitação da equipe — ver [`docs/03-elicitacao.md`](../03-elicitacao.md).
 
 O sistema tem dois atores, **ONG** e **Voluntário**, com sete casos de uso. "Avaliar Mutuamente" é compartilhado pelos dois atores e alimenta («include») o histórico de impacto do voluntário.
 

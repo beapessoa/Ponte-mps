@@ -40,3 +40,5 @@ As telas `TelaCadastroONG`, `TelaCadastroVoluntario` e `TelaListaUsuarios` ainda
 | UC01 — Cadastrar ONG | ControladorCadastro | TelaCadastroONG |
 | UC02 — Cadastrar Voluntário | ControladorCadastro | TelaCadastroVoluntario |
 | UC08 — Listar Usuários Cadastrados | ControladorListagem | TelaListaUsuarios |
+
+Imagem original (anexo): [`docs/specs/anexos/diagrama-classes-analise-gerenciamento-usuarios.png`](specs/anexos/diagrama-classes-analise-gerenciamento-usuarios.png).

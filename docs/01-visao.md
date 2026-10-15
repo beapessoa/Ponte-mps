@@ -1,6 +1,6 @@
 # Visão do sistema — Ponte
 
-> Equivale às seções 1 (Introdução) e 2 (Descrição geral) do modelo de documento de requisitos. Primeira versão migrada de [`docs/documento-requisitos/main.pdf`](documento-requisitos/main.pdf) para o formato versionado em Markdown adotado pela disciplina.
+> Equivale às seções 1 (Introdução) e 2 (Descrição geral) do modelo de documento de requisitos, no formato versionado em Markdown adotado pela disciplina.
 
 ## 1. Introdução
 
@@ -20,9 +20,8 @@ Este repositório especifica a **Ponte**, uma plataforma que conecta organizaç�
 
 ### 1.3 Documentos relacionados
 
-1. **Documento de Entrega Final — Especificação de Requisitos de Software (Ponte)**; Equipe Ponte; 2026; Centro de Informática, UFPB. Fonte original do conteúdo de produto, personas, requisitos e processo de elicitação ([`docs/specs/anexos/ponte-documento-entrega-final.pdf`](specs/anexos/ponte-documento-entrega-final.pdf)).
-2. **1ª versão do documento de requisitos (PDF)**; Equipe Ponte; 07/10/2026 ([`docs/documento-requisitos/main.pdf`](documento-requisitos/main.pdf)) — conteúdo migrado para este arquivo, para `02-glossario.md`, `03-elicitacao.md` e `openspec/specs/`.
-3. [Glossário](02-glossario.md).
+1. [Glossário](02-glossario.md).
+2. [Elicitação de requisitos](03-elicitacao.md).
 
 ## 2. Descrição geral
 

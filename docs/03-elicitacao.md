@@ -1,6 +1,6 @@
 # Elicitação de requisitos
 
-> Seção 4 do modelo de documento de requisitos. Duas técnicas centrais, complementadas por técnicas de apoio (ver §4.3). A matriz CSD completa e os registros da vivência estão em [`docs/specs/anexos/ponte-documento-entrega-final.pdf`](specs/anexos/ponte-documento-entrega-final.pdf) (Apêndices I e III).
+> Seção 4 do modelo de documento de requisitos. Duas técnicas centrais, complementadas por técnicas de apoio (ver §4.3).
 
 ## 4.1 Técnica 1 — Entrevistas (em imersão e acompanhamento)
 
