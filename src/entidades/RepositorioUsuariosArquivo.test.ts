@@ -71,6 +71,14 @@ describe('RepositorioUsuariosArquivo', () => {
     ).toThrow(ErroDeArquivo);
   });
 
+  it('nao_deve_atribuir_id_ao_usuario_quando_a_escrita_falha', () => {
+    const repositorio = new RepositorioUsuariosArquivo(join(diretorio, 'pasta-inexistente', 'usuarios.bin'));
+    const ong = new Ong('Amigos do Bairro', 'amigos', SENHA_VALIDA, 'Saúde', 'Ações de saúde.');
+
+    expect(() => repositorio.adicionar(ong)).toThrow(ErroDeArquivo);
+    expect(ong.id).toBeUndefined();
+  });
+
   it('deve_buscar_usuario_por_id', () => {
     const repositorio = new RepositorioUsuariosArquivo(caminhoArquivo);
     const ong = repositorio.adicionar(

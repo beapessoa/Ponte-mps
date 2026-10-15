@@ -1,19 +1,19 @@
 # Módulo: Gerenciamento de Usuários
 
-Escopo da Sprint 1. Cobre o cadastro e a listagem dos dois tipos de usuário do sistema (ONG e Voluntário), correspondendo a um subconjunto de [UC01 e UC02](./casos-de-uso.md) focado nos casos de uso de ADIÇÃO e LISTAGEM de usuários.
+Escopo da Sprint 1. Cobre o cadastro e a listagem dos dois tipos de usuário do sistema (ONG e Voluntário), correspondendo a [UC01, UC02 e UC08](../04-casos-de-uso/README.md) — os casos de uso de ADIÇÃO e LISTAGEM de usuários.
 
 ## Diagrama de Casos de Uso
 
-![Diagrama de Casos de Uso — Gerenciamento de Usuários](./diagramas/diagrama-casos-de-uso-gerenciamento-usuarios.png)
+Versão atual (Mermaid): [`docs/04-casos-de-uso/README.md`](../04-casos-de-uso/README.md). Imagem original, mantida como anexo: [`anexos/diagrama-casos-de-uso-gerenciamento-usuarios.png`](./anexos/diagrama-casos-de-uso-gerenciamento-usuarios.png).
 
 Dois atores, **ONG** e **Voluntário**, compartilham os dois casos de uso do módulo:
 
 - **Cadastrar Usuário** — cadastro de uma ONG (UC01) ou de um Voluntário (UC02).
-- **Listar Usuários Cadastrados** — consulta de todos os usuários já cadastrados no sistema.
+- **Listar Usuários Cadastrados** — consulta de todos os usuários já cadastrados no sistema (UC08).
 
 ## Diagrama de Classes de Análise
 
-![Diagrama de Classes de Análise — Gerenciamento de Usuários](./diagramas/diagrama-classes-analise-gerenciamento-usuarios.png)
+Versão atual (Mermaid): [`docs/05-analise.md`](../05-analise.md). Imagem original, mantida como anexo: [`anexos/diagrama-classes-analise-gerenciamento-usuarios.png`](./anexos/diagrama-classes-analise-gerenciamento-usuarios.png).
 
 Organização em três camadas (padrão fronteira/controle/entidade):
 
