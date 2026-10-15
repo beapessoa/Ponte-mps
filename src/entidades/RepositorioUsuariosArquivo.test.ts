@@ -122,4 +122,12 @@ describe('RepositorioUsuariosArquivo', () => {
 
     expect(() => repositorio.remover(999)).toThrow();
   });
+
+  it('nao_deve_atribuir_id_ao_usuario_quando_a_escrita_falha', () => {
+    const repositorio = new RepositorioUsuariosArquivo(join(diretorio, 'pasta-inexistente', 'usuarios.bin'));
+    const ong = new Ong('Amigos do Bairro', 'amigos', SENHA_VALIDA, 'Saúde', 'Ações de saúde.');
+
+    expect(() => repositorio.adicionar(ong)).toThrow(ErroDeArquivo);
+    expect(ong.id).toBeUndefined();
+  });
 });
