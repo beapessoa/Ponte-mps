@@ -20,6 +20,8 @@ A camada `fronteira` (telas/API) será adicionada quando a stack de interface fo
 
 ## Especificação
 
+**Prazos e o que entregar em cada sprint: [`docs/00-entregas.md`](docs/00-entregas.md).**
+
 A documentação de requisitos está migrando para o formato versionado adotado pela disciplina (spec-driven):
 
 - [`docs/01-visao.md`](docs/01-visao.md) — introdução e descrição geral
