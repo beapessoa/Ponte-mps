@@ -42,4 +42,50 @@ describe('RepositorioUsuariosRAM', () => {
 
     expect(repositorio.listarTodos()).toHaveLength(1);
   });
+
+  it('deve_buscar_usuario_por_id', () => {
+    const repositorio = new RepositorioUsuariosRAM();
+    const voluntario = repositorio.adicionar(criarVoluntario('Rafael', 'rafael'));
+
+    expect(repositorio.buscarPorId(voluntario.id!)).toBe(voluntario);
+  });
+
+  it('deve_retornar_undefined_ao_buscar_id_inexistente', () => {
+    const repositorio = new RepositorioUsuariosRAM();
+
+    expect(repositorio.buscarPorId(999)).toBeUndefined();
+  });
+
+  it('deve_atualizar_usuario_existente', () => {
+    const repositorio = new RepositorioUsuariosRAM();
+    const voluntario = repositorio.adicionar(criarVoluntario('Rafael', 'rafael'));
+    voluntario.nome = 'Rafael Souza';
+
+    repositorio.atualizar(voluntario);
+
+    expect(repositorio.buscarPorId(voluntario.id!)?.nome).toBe('Rafael Souza');
+  });
+
+  it('deve_lancar_erro_ao_atualizar_usuario_inexistente', () => {
+    const repositorio = new RepositorioUsuariosRAM();
+    const voluntario = criarVoluntario('Rafael', 'rafael');
+    voluntario.id = 999;
+
+    expect(() => repositorio.atualizar(voluntario)).toThrow();
+  });
+
+  it('deve_remover_usuario_existente', () => {
+    const repositorio = new RepositorioUsuariosRAM();
+    const voluntario = repositorio.adicionar(criarVoluntario('Rafael', 'rafael'));
+
+    repositorio.remover(voluntario.id!);
+
+    expect(repositorio.listarTodos()).toEqual([]);
+  });
+
+  it('deve_lancar_erro_ao_remover_usuario_inexistente', () => {
+    const repositorio = new RepositorioUsuariosRAM();
+
+    expect(() => repositorio.remover(999)).toThrow();
+  });
 });
