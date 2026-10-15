@@ -39,6 +39,43 @@ describe('FacadeSingletonController', () => {
     expect(facade.listarUsuarios()).toEqual([ong, voluntario]);
   });
 
+  it('deve_atualizar_e_remover_usuarios_atraves_da_fachada', () => {
+    const facade = FacadeSingletonController.obterInstancia();
+    const ong = facade.cadastrarONG('Amigos do Bairro', 'amigos', SENHA_VALIDA, 'Saúde', 'Ações de saúde.');
+    const voluntario = facade.cadastrarVoluntario(
+      'Rafael',
+      'rafael',
+      SENHA_VALIDA,
+      ['enfermagem'],
+      'manhãs',
+      'João Pessoa/PB',
+    );
+
+    const ongAtualizada = facade.atualizarONG(
+      ong.id!,
+      'Amigos do Bairro Unidos',
+      'amigos',
+      SENHA_VALIDA,
+      'Saúde',
+      'Ações de saúde comunitária.',
+    );
+    expect(ongAtualizada.nome).toBe('Amigos do Bairro Unidos');
+
+    const voluntarioAtualizado = facade.atualizarVoluntario(
+      voluntario.id!,
+      'Rafael Souza',
+      'rafael',
+      SENHA_VALIDA,
+      ['enfermagem', 'primeiros socorros'],
+      'manhãs',
+      'João Pessoa/PB',
+    );
+    expect(voluntarioAtualizado.habilidades).toEqual(['enfermagem', 'primeiros socorros']);
+
+    facade.removerUsuario(ong.id!);
+    expect(facade.listarUsuarios()).toEqual([voluntarioAtualizado]);
+  });
+
   it('deve_publicar_buscar_atualizar_e_remover_vaga_atraves_da_fachada', () => {
     const facade = FacadeSingletonController.obterInstancia();
     const ong = facade.cadastrarONG('Amigos do Bairro', 'amigos', SENHA_VALIDA, 'Saúde', 'Ações de saúde.');

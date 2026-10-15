@@ -70,6 +70,41 @@ export class FacadeSingletonController {
     return this.controladorListagem.listarUsuarios();
   }
 
+  atualizarONG(
+    id: number,
+    nome: string,
+    login: string,
+    senha: string,
+    areaAtuacao: string,
+    descricao: string,
+  ): Ong {
+    return this.controladorCadastro.atualizarONG(id, nome, login, senha, areaAtuacao, descricao);
+  }
+
+  atualizarVoluntario(
+    id: number,
+    nome: string,
+    login: string,
+    senha: string,
+    habilidades: string[],
+    disponibilidade: string,
+    localizacao: string,
+  ): Voluntario {
+    return this.controladorCadastro.atualizarVoluntario(
+      id,
+      nome,
+      login,
+      senha,
+      habilidades,
+      disponibilidade,
+      localizacao,
+    );
+  }
+
+  removerUsuario(id: number): void {
+    this.controladorCadastro.removerUsuario(id);
+  }
+
   publicarVaga(
     ongId: number,
     data: string,
