@@ -1,6 +1,8 @@
 # Especificação de Requisitos — Ponte
 
-Contrato de requisitos do sistema. Leia este diretório antes de implementar qualquer funcionalidade (ver seção 6 do [`CONTRIBUTING.md`](../../CONTRIBUTING.md), "Para Agentes IA").
+> **Nota:** a descrição geral, o glossário, a elicitação e a lista de requisitos (RF/RNF) migraram para [`docs/01-visao.md`](../01-visao.md), [`docs/02-glossario.md`](../02-glossario.md), [`docs/03-elicitacao.md`](../03-elicitacao.md) e [`openspec/specs/`](../../openspec/specs/). Este diretório mantém os casos de uso, os diagramas e o módulo de gerenciamento de usuários.
+
+Contrato de requisitos do sistema. Leia este diretório antes de implementar qualquer funcionalidade.
 
 ## Conteúdo
 

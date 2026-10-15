@@ -20,7 +20,15 @@ A camada `fronteira` (telas/API) será adicionada quando a stack de interface fo
 
 ## Especificação
 
-O contrato de requisitos (histórias de usuário, regras de negócio, casos de uso e diagramas) está em [`docs/specs/`](docs/specs/README.md). Leia-o antes de implementar qualquer funcionalidade.
+A documentação de requisitos está migrando para o formato versionado adotado pela disciplina (spec-driven):
+
+- [`docs/01-visao.md`](docs/01-visao.md) — introdução e descrição geral
+- [`docs/02-glossario.md`](docs/02-glossario.md) — glossário
+- [`docs/03-elicitacao.md`](docs/03-elicitacao.md) — técnicas de elicitação
+- [`openspec/specs/`](openspec/specs/) — requisitos funcionais e não funcionais (fonte da verdade)
+- [`docs/specs/`](docs/specs/README.md) — casos de uso, diagramas de classes de análise e módulo de gerenciamento de usuários (ainda no formato anterior)
+
+Leia antes de implementar qualquer funcionalidade.
 
 ## Rodando o projeto
 
