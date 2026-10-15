@@ -11,6 +11,10 @@ describe('validarLogin', () => {
     expect(() => validarLogin('')).toThrow(LoginInvalidoError);
   });
 
+  it('deve_lancar_login_invalido_quando_login_contem_apenas_espacos', () => {
+    expect(() => validarLogin('   ')).toThrow(LoginInvalidoError);
+  });
+
   it('deve_lancar_login_invalido_quando_login_tem_mais_de_12_caracteres', () => {
     expect(() => validarLogin('umLoginComMuitosCaracteres')).toThrow(LoginInvalidoError);
   });

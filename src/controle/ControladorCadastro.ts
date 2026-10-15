@@ -12,7 +12,7 @@ export class ControladorCadastro {
     areaAtuacao: string,
     descricao: string,
   ): Ong {
-    if (!nome || !areaAtuacao || !descricao) {
+    if (!nome.trim() || !areaAtuacao.trim() || !descricao.trim()) {
       throw new Error('Nome, área de atuação e descrição são obrigatórios para cadastrar uma ONG.');
     }
 
@@ -29,7 +29,7 @@ export class ControladorCadastro {
     disponibilidade: string,
     localizacao: string,
   ): Voluntario {
-    if (!nome || habilidades.length === 0 || !disponibilidade || !localizacao) {
+    if (!nome.trim() || habilidades.length === 0 || !disponibilidade.trim() || !localizacao.trim()) {
       throw new Error(
         'Nome, habilidades, disponibilidade e localização são obrigatórios para cadastrar um voluntário.',
       );

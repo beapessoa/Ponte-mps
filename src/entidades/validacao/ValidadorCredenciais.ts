@@ -11,7 +11,7 @@ const CONTEM_MINUSCULA = /[a-z]/;
 const CONTEM_SIMBOLO = /[!@#$%^&*()_+\-=[\]{}|']/;
 
 export function validarLogin(login: string): void {
-  if (!login) {
+  if (!login.trim()) {
     throw new LoginInvalidoError('O login não pode ser vazio.');
   }
   if (login.length > TAMANHO_MAXIMO_LOGIN) {

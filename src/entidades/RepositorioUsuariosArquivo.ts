@@ -45,9 +45,9 @@ export class RepositorioUsuariosArquivo implements RepositorioUsuarios {
   adicionar(usuario: Usuario): Usuario {
     const usuarios = this.lerArquivo();
     const maiorId = usuarios.reduce((maior, u) => Math.max(maior, u.id ?? 0), 0);
-    usuario.id = maiorId + 1;
-    usuarios.push(usuario);
-    this.escreverArquivo(usuarios);
+    const novoId = maiorId + 1;
+    this.escreverArquivo([...usuarios, { ...usuario, id: novoId }]);
+    usuario.id = novoId;
     return usuario;
   }
 

@@ -34,6 +34,13 @@ describe('ControladorCadastro', () => {
     expect(repositorio.listarTodos()).toHaveLength(0);
   });
 
+  it('deve_lancar_erro_ao_cadastrar_ong_com_descricao_contendo_apenas_espacos', () => {
+    expect(() =>
+      controlador.cadastrarONG('Amigos do Bairro', 'amigos', SENHA_VALIDA, 'Saúde', '   '),
+    ).toThrow();
+    expect(repositorio.listarTodos()).toHaveLength(0);
+  });
+
   it('deve_lancar_login_invalido_ao_cadastrar_ong_com_login_contendo_numeros', () => {
     expect(() =>
       controlador.cadastrarONG('Amigos do Bairro', 'amigos1', SENHA_VALIDA, 'Saúde', 'Ações de saúde.'),
@@ -65,6 +72,13 @@ describe('ControladorCadastro', () => {
   it('deve_lancar_erro_ao_cadastrar_voluntario_sem_habilidades', () => {
     expect(() =>
       controlador.cadastrarVoluntario('Rafael', 'rafael', SENHA_VALIDA, [], 'manhãs', 'João Pessoa/PB'),
+    ).toThrow();
+    expect(repositorio.listarTodos()).toHaveLength(0);
+  });
+
+  it('deve_lancar_erro_ao_cadastrar_voluntario_com_localizacao_contendo_apenas_espacos', () => {
+    expect(() =>
+      controlador.cadastrarVoluntario('Rafael', 'rafael', SENHA_VALIDA, ['enfermagem'], 'manhãs', '   '),
     ).toThrow();
     expect(repositorio.listarTodos()).toHaveLength(0);
   });
