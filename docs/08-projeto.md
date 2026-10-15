@@ -18,7 +18,7 @@ A camada `fronteira` (telas/API) será adicionada quando a stack de interface fo
 
 ## 2. Diagrama de classes de projeto
 
-### Estado atual: Sprints 1 e 2 (Gerenciamento de Usuários + Laboratório 2)
+### Estado atual: Sprints 1 a 3 (Gerenciamento de Usuários, Laboratório 2, CRUD de Vaga e fachada)
 
 ```mermaid
 classDiagram
@@ -47,7 +47,10 @@ classDiagram
     class RepositorioUsuarios {
         <<interface>>
         +adicionar(usuario) Usuario
+        +buscarPorId(id) Usuario
         +listarTodos() Usuario[]
+        +atualizar(usuario) Usuario
+        +remover(id) void
     }
     class RepositorioUsuariosRAM {
         <<entidade>>
@@ -62,17 +65,63 @@ classDiagram
     RepositorioUsuarios <|.. RepositorioUsuariosArquivo
     RepositorioUsuarios o-- Usuario : armazena 1..*
 
+    class Vaga {
+        <<entidade>>
+        +id: number
+        +ongId: number
+        +data: string
+        +local: string
+        +quantidadeVagas: number
+        +habilidadesExigidas: string[]
+    }
+    class RepositorioVagas {
+        <<interface>>
+        +adicionar(vaga) Vaga
+        +buscarPorId(id) Vaga
+        +listarTodas() Vaga[]
+        +atualizar(vaga) Vaga
+        +remover(id) void
+    }
+    class RepositorioVagasRAM {
+        <<entidade>>
+        -vagas: Vaga[]
+        -proximoId: number
+    }
+    RepositorioVagas <|.. RepositorioVagasRAM
+    RepositorioVagas o-- Vaga : armazena 1..*
+
     class ControladorCadastro {
         <<controle>>
         +cadastrarONG(nome, login, senha, areaAtuacao, descricao) Ong
         +cadastrarVoluntario(nome, login, senha, habilidades, disponibilidade, localizacao) Voluntario
+        +atualizarONG(id, nome, login, senha, areaAtuacao, descricao) Ong
+        +atualizarVoluntario(id, nome, login, senha, habilidades, disponibilidade, localizacao) Voluntario
+        +removerUsuario(id) void
     }
     class ControladorListagem {
         <<controle>>
         +listarUsuarios() UsuarioSemSenha[]
     }
-    ControladorCadastro ..> RepositorioUsuarios : adiciona
+    class ControladorVagas {
+        <<controle>>
+        +publicarVaga(ongId, data, local, quantidadeVagas, habilidadesExigidas) Vaga
+        +buscarVaga(id) Vaga
+        +listarVagas() Vaga[]
+        +atualizarVaga(id, dados) Vaga
+        +removerVaga(id) void
+    }
+    ControladorCadastro ..> RepositorioUsuarios
     ControladorListagem ..> RepositorioUsuarios : consulta
+    ControladorVagas ..> RepositorioVagas
+
+    class FacadeSingletonController {
+        <<controle>>
+        +obterInstancia() FacadeSingletonController
+        +contarEntidadesCadastradas() number
+    }
+    FacadeSingletonController ..> ControladorCadastro
+    FacadeSingletonController ..> ControladorListagem
+    FacadeSingletonController ..> ControladorVagas
 
     class ErroDeValidacao {
         <<erro>>
@@ -92,7 +141,7 @@ classDiagram
     RepositorioUsuariosArquivo ..> ErroDeArquivo : lança
 ```
 
-Uma função `criarRepositorioUsuarios(tipo, caminhoArquivo?)` (não é uma classe, por isso fora do diagrama) seleciona a implementação de `RepositorioUsuarios` no início da execução — ver [ADR-0001](07-arquitetura/adr/0001-persistencia-substituivel.md).
+Uma função `criarRepositorioUsuarios(tipo, caminhoArquivo?)` (não é uma classe, por isso fora do diagrama) seleciona a implementação de `RepositorioUsuarios` no início da execução — ver [ADR-0001](07-arquitetura/adr/0001-persistencia-substituivel.md). `FacadeSingletonController` concentra o acesso aos três controladores atrás de uma única instância compartilhada — ver [ADR-0002](07-arquitetura/adr/0002-facade-singleton-controller.md). `RepositorioVagas` ainda só tem implementação em memória (`RepositorioVagasRAM`); a persistência em arquivo/banco para `Vaga` fica para quando o padrão Repository for generalizado (Sprint 4).
 
 ## 3. Padrões de projeto utilizados
 
@@ -101,8 +150,8 @@ Preencha uma linha por padrão aplicado. Cada padrão relevante também tem um A
 | Padrão | Sprint | Classes participantes (papel no padrão) | Problema que resolve no projeto | ADR |
 |---|---|---|---|---|
 | Factory Method | S2 | `criarRepositorioUsuarios` (fábrica) → `RepositorioUsuariosRAM` / `RepositorioUsuariosArquivo` | Escolher a implementação de persistência sem acoplar os controladores a uma classe concreta | [ADR-0001](07-arquitetura/adr/0001-persistencia-substituivel.md) |
-| Singleton | S3 | | | |
-| Facade | S3 | | | |
+| Singleton | S3 | `FacadeSingletonController` (`obterInstancia()`, `reiniciar()`) | Garantir uma única instância compartilhada dos controladores, evitando recriar os repositórios em cada ponto de uso | [ADR-0002](07-arquitetura/adr/0002-facade-singleton-controller.md) |
+| Facade | S3 | `FacadeSingletonController` unificando `ControladorCadastro`, `ControladorListagem` e `ControladorVagas` | Expor uma única API simples para cadastro/listagem/CRUD de usuários e vagas, com `contarEntidadesCadastradas()` agregando os dois | [ADR-0002](07-arquitetura/adr/0002-facade-singleton-controller.md) |
 | Repository | S4 | | | |
 | Adapter | S4 | | | |
 | Template Method | S4 | | | |
