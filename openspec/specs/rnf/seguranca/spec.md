@@ -21,7 +21,7 @@ O sistema DEVE garantir que a senha de um usuário nunca seja retornada em nenhu
 
 **Prioridade:** Essencial
 **Casos de uso:** UC08
-**Status:** Não implementado — `ControladorListagem.listarUsuarios()` hoje retorna o objeto `Usuario` completo, incluindo `senha` em texto plano (ver [`src/controle/ControladorListagem.ts`](../../../src/controle/ControladorListagem.ts) e [`src/entidades/Usuario.ts`](../../../src/entidades/Usuario.ts)).
+**Status:** Implementado — `ControladorListagem.listarUsuarios()` usa `omitirSenha()` para remover o campo `senha` antes de retornar (ver [`src/controle/ControladorListagem.ts`](../../../src/controle/ControladorListagem.ts) e [`src/entidades/Usuario.ts`](../../../src/entidades/Usuario.ts)).
 
 #### Scenario: Listagem sem senha
 - **GIVEN** existem usuários cadastrados com login e senha

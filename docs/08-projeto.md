@@ -69,7 +69,7 @@ classDiagram
     }
     class ControladorListagem {
         <<controle>>
-        +listarUsuarios() Usuario[]
+        +listarUsuarios() UsuarioSemSenha[]
     }
     ControladorCadastro ..> RepositorioUsuarios : adiciona
     ControladorListagem ..> RepositorioUsuarios : consulta
