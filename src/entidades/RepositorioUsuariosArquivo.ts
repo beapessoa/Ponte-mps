@@ -51,8 +51,33 @@ export class RepositorioUsuariosArquivo implements RepositorioUsuarios {
     return usuario;
   }
 
+  buscarPorId(id: number): Usuario | undefined {
+    return this.lerArquivo().find((usuario) => usuario.id === id);
+  }
+
   listarTodos(): Usuario[] {
     return this.lerArquivo();
+  }
+
+  atualizar(usuario: Usuario): Usuario {
+    const usuarios = this.lerArquivo();
+    const indice = usuarios.findIndex((u) => u.id === usuario.id);
+    if (indice === -1) {
+      throw new Error(`Usuário ${usuario.id} não encontrado.`);
+    }
+    usuarios[indice] = usuario;
+    this.escreverArquivo(usuarios);
+    return usuario;
+  }
+
+  remover(id: number): void {
+    const usuarios = this.lerArquivo();
+    const indice = usuarios.findIndex((usuario) => usuario.id === id);
+    if (indice === -1) {
+      throw new Error(`Usuário ${id} não encontrado.`);
+    }
+    usuarios.splice(indice, 1);
+    this.escreverArquivo(usuarios);
   }
 
   private lerArquivo(): Usuario[] {
