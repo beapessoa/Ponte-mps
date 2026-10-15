@@ -30,6 +30,20 @@ A documentação de requisitos está migrando para o formato versionado adotado 
 
 Leia antes de implementar qualquer funcionalidade.
 
+## Equipe
+
+**Sistema:** Ponte
+
+| Integrante | Matrícula | GitHub |
+|---|---|---|
+| Beatriz Pessoa | _preencher_ | [@beapessoa](https://github.com/beapessoa) |
+| Emyle Lucena | _preencher_ | [@Emysntts](https://github.com/Emysntts) |
+| Marcus Vinícius | _preencher_ | _preencher_ |
+| Luís Aranha | _preencher_ | _preencher_ |
+| Maria Clara Dantas | _preencher_ | [@claratdantass](https://github.com/claratdantass) |
+
+**Professor:** Raoni Kulesza
+
 ## Rodando o projeto
 
 ```bash
