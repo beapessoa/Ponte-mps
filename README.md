@@ -38,9 +38,9 @@ Leia antes de implementar qualquer funcionalidade.
 
 | Integrante | Matrícula | GitHub |
 |---|---|---|
-| Beatriz Pessoa | _preencher_ | [@beapessoa](https://github.com/beapessoa) |
-| Emyle Lucena | _preencher_ | [@Emysntts](https://github.com/Emysntts) |
-| Maria Clara Dantas | _preencher_ | [@claratdantass](https://github.com/claratdantass) |
+| Beatriz Pessôa | 20240008600 | [@beapessoa](https://github.com/beapessoa) |
+| Emyle Lucena | 20240007907 | [@Emysntts](https://github.com/Emysntts) |
+| Maria Clara Dantas | 20240008083 | [@claratdantass](https://github.com/claratdantass) |
 
 **Professor:** Raoni Kulesza
 
