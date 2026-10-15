@@ -26,4 +26,4 @@ Personas de referência levantadas na elicitação: **Marta** (coordenadora de O
 
 ## Origem
 
-Documentos elicitados pela equipe (Beatriz Pessoa, Emyle Lucena, Marcus Vinícius, Luís Aranha, Maria Clara Dantas) via brainstorming, mapeamento de stakeholders, definição de personas, entrevistas e validação por Matriz CSD (Certezas, Suposições e Dúvidas) — ver Apêndices I–III do anexo em [anexos/ponte-documento-entrega-final.pdf](./anexos/ponte-documento-entrega-final.pdf).
+Documentos elicitados pela equipe (Beatriz Pessoa, Emyle Lucena, Maria Clara Dantas) via brainstorming, mapeamento de stakeholders, definição de personas, entrevistas e validação por Matriz CSD (Certezas, Suposições e Dúvidas) — ver Apêndices I–III do anexo em [anexos/ponte-documento-entrega-final.pdf](./anexos/ponte-documento-entrega-final.pdf).

@@ -30,7 +30,7 @@
 |---|---|
 | Período | Início de 2026, após a fase de entrevistas |
 | Local | Reuniões da equipe, remotas e híbridas |
-| Participantes | Equipe completa — Beatriz Pessoa, Emyle Lucena, Marcus Vinícius, Luís Aranha e Maria Clara Dantas |
+| Participantes | Equipe completa — Beatriz Pessoa, Emyle Lucena e Maria Clara Dantas |
 
 **Por que esta técnica:** a Matriz CSD foi utilizada como técnica de validação, organizando o conhecimento da equipe em Certezas, Suposições e Dúvidas e cruzando essas hipóteses com as necessidades reais das personas e dos stakeholders. Ela permite transformar suposições e dúvidas em requisitos validados ou descartados de forma estruturada.
 
