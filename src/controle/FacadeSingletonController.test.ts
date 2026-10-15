@@ -36,7 +36,9 @@ describe('FacadeSingletonController', () => {
       'João Pessoa/PB',
     );
 
-    expect(facade.listarUsuarios()).toEqual([ong, voluntario]);
+    const { senha: _senhaOng, ...ongSemSenha } = ong;
+    const { senha: _senhaVoluntario, ...voluntarioSemSenha } = voluntario;
+    expect(facade.listarUsuarios()).toEqual([ongSemSenha, voluntarioSemSenha]);
   });
 
   it('deve_atualizar_e_remover_usuarios_atraves_da_fachada', () => {
@@ -73,7 +75,8 @@ describe('FacadeSingletonController', () => {
     expect(voluntarioAtualizado.habilidades).toEqual(['enfermagem', 'primeiros socorros']);
 
     facade.removerUsuario(ong.id!);
-    expect(facade.listarUsuarios()).toEqual([voluntarioAtualizado]);
+    const { senha: _senhaVoluntarioAtualizado, ...voluntarioAtualizadoSemSenha } = voluntarioAtualizado;
+    expect(facade.listarUsuarios()).toEqual([voluntarioAtualizadoSemSenha]);
   });
 
   it('deve_publicar_buscar_atualizar_e_remover_vaga_atraves_da_fachada', () => {

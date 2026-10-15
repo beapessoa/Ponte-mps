@@ -66,7 +66,7 @@ export class FacadeSingletonController {
     );
   }
 
-  listarUsuarios(): Usuario[] {
+  listarUsuarios(): Omit<Usuario, 'senha'>[] {
     return this.controladorListagem.listarUsuarios();
   }
 
