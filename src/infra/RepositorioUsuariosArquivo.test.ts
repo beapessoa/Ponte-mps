@@ -2,10 +2,10 @@ import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { ErroDeArquivo } from './erros/ErroDePersistencia.js';
-import { Ong } from './Ong.js';
+import { ErroDeArquivo } from '../entidades/erros/ErroDePersistencia.js';
+import { Ong } from '../entidades/Ong.js';
 import { RepositorioUsuariosArquivo } from './RepositorioUsuariosArquivo.js';
-import { Voluntario } from './Voluntario.js';
+import { Voluntario } from '../entidades/Voluntario.js';
 
 const SENHA_VALIDA = 'Abcdef@1';
 

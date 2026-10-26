@@ -1,10 +1,10 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { deserialize, serialize } from 'node:v8';
-import { ErroDeArquivo } from './erros/ErroDePersistencia.js';
-import { Ong } from './Ong.js';
-import { RepositorioUsuarios } from './RepositorioUsuarios.js';
-import { Usuario } from './Usuario.js';
-import { Voluntario } from './Voluntario.js';
+import { ErroDeArquivo } from '../entidades/erros/ErroDePersistencia.js';
+import { Ong } from '../entidades/Ong.js';
+import { RepositorioUsuarios } from '../entidades/RepositorioUsuarios.js';
+import { Usuario } from '../entidades/Usuario.js';
+import { Voluntario } from '../entidades/Voluntario.js';
 
 /**
  * A serialização v8 não preserva o protótipo das classes (vira um objeto

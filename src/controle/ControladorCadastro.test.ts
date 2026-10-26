@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { LoginInvalidoError, SenhaInvalidaError } from '../entidades/erros/ErroDeValidacao.js';
-import { RepositorioUsuariosRAM } from '../entidades/RepositorioUsuariosRAM.js';
+import { RepositorioUsuariosRAM } from '../infra/RepositorioUsuariosRAM.js';
 import { ControladorCadastro } from './ControladorCadastro.js';
 
 const SENHA_VALIDA = 'Abcdef@1';
