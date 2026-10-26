@@ -1,4 +1,4 @@
-import { RepositorioUsuarios } from './RepositorioUsuarios.js';
+import { RepositorioUsuarios } from '../entidades/RepositorioUsuarios.js';
 import { RepositorioUsuariosArquivo } from './RepositorioUsuariosArquivo.js';
 import { RepositorioUsuariosRAM } from './RepositorioUsuariosRAM.js';
 

@@ -8,15 +8,16 @@ TypeScript / Node.js.
 
 ## Estrutura de pacotes
 
-Organização por camadas (fronteira, controle, entidade), conforme o diagrama de classes de análise do sistema:
+Organização por camadas (fronteira, controle, entidade, infraestrutura), conforme o diagrama de classes de análise do sistema:
 
 ```
 src/
-  entidades/   # modelos de domínio e persistência (RAM e arquivo binário)
+  entidades/   # domínio: modelos, regras e as PORTAS de persistência (interfaces)
   controle/    # orquestram casos de uso, chamando as entidades
+  infra/       # adaptadores concretos das portas: persistência em RAM e arquivo binário
 ```
 
-A camada `fronteira` (telas/API) será adicionada quando a stack de interface for definida.
+A persistência fica em `infra/` (adaptadores) e depende das interfaces definidas no domínio (`entidades/`), não o contrário — inversão de dependência, conforme o [ADR-0001](docs/07-arquitetura/adr/0001-persistencia-substituivel.md). A camada `fronteira` (telas/API) será adicionada quando a stack de interface for definida.
 
 ## Especificação
 

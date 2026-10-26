@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { RepositorioVagasRAM } from '../entidades/RepositorioVagasRAM.js';
+import { RepositorioVagasRAM } from '../infra/RepositorioVagasRAM.js';
 import { ControladorVagas } from './ControladorVagas.js';
 
 describe('ControladorVagas', () => {

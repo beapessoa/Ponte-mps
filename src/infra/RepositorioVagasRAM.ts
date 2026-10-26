@@ -1,5 +1,5 @@
-import { RepositorioVagas } from './RepositorioVagas.js';
-import { Vaga } from './Vaga.js';
+import { RepositorioVagas } from '../entidades/RepositorioVagas.js';
+import { Vaga } from '../entidades/Vaga.js';
 
 /** Mantém as vagas apenas em memória: a coleção é perdida ao reiniciar o processo. */
 export class RepositorioVagasRAM implements RepositorioVagas {

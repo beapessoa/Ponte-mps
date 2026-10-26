@@ -1,8 +1,8 @@
-import { criarRepositorioUsuarios } from '../entidades/fabricaRepositorioUsuarios.js';
+import { criarRepositorioUsuarios } from '../infra/fabricaRepositorioUsuarios.js';
 import { Ong } from '../entidades/Ong.js';
 import { RepositorioUsuarios } from '../entidades/RepositorioUsuarios.js';
 import { RepositorioVagas } from '../entidades/RepositorioVagas.js';
-import { RepositorioVagasRAM } from '../entidades/RepositorioVagasRAM.js';
+import { RepositorioVagasRAM } from '../infra/RepositorioVagasRAM.js';
 import { Usuario } from '../entidades/Usuario.js';
 import { Vaga } from '../entidades/Vaga.js';
 import { Voluntario } from '../entidades/Voluntario.js';
