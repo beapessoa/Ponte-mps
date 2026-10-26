@@ -116,7 +116,7 @@ Dois mecanismos, por trás da mesma interface `RepositorioUsuarios`:
 ### Selecionando o mecanismo na inicialização
 
 ```ts
-import { criarRepositorioUsuarios } from './entidades/fabricaRepositorioUsuarios.js';
+import { criarRepositorioUsuarios } from './infra/fabricaRepositorioUsuarios.js';
 
 const repositorio = criarRepositorioUsuarios(); // RAM por padrão
 // ou, via variáveis de ambiente:
@@ -130,9 +130,9 @@ const repositorio = criarRepositorioUsuarios(); // RAM por padrão
 |---|---|
 | `Usuario`, `Ong`, `Voluntario` | [`src/entidades/`](../../src/entidades/) |
 | `RepositorioUsuarios` (interface) | [`src/entidades/RepositorioUsuarios.ts`](../../src/entidades/RepositorioUsuarios.ts) |
-| `RepositorioUsuariosRAM` | [`src/entidades/RepositorioUsuariosRAM.ts`](../../src/entidades/RepositorioUsuariosRAM.ts) |
-| `RepositorioUsuariosArquivo` | [`src/entidades/RepositorioUsuariosArquivo.ts`](../../src/entidades/RepositorioUsuariosArquivo.ts) |
-| `criarRepositorioUsuarios` (fábrica) | [`src/entidades/fabricaRepositorioUsuarios.ts`](../../src/entidades/fabricaRepositorioUsuarios.ts) |
+| `RepositorioUsuariosRAM` | [`src/infra/RepositorioUsuariosRAM.ts`](../../src/infra/RepositorioUsuariosRAM.ts) |
+| `RepositorioUsuariosArquivo` | [`src/infra/RepositorioUsuariosArquivo.ts`](../../src/infra/RepositorioUsuariosArquivo.ts) |
+| `criarRepositorioUsuarios` (fábrica) | [`src/infra/fabricaRepositorioUsuarios.ts`](../../src/infra/fabricaRepositorioUsuarios.ts) |
 | `validarLogin`, `validarSenha` | [`src/entidades/validacao/ValidadorCredenciais.ts`](../../src/entidades/validacao/ValidadorCredenciais.ts) |
 | `ErroDeValidacao`, `LoginInvalidoError`, `SenhaInvalidaError` | [`src/entidades/erros/ErroDeValidacao.ts`](../../src/entidades/erros/ErroDeValidacao.ts) |
 | `ErroDePersistencia`, `ErroDeArquivo` | [`src/entidades/erros/ErroDePersistencia.ts`](../../src/entidades/erros/ErroDePersistencia.ts) |

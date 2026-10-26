@@ -6,15 +6,16 @@
 
 ```text
 src/
-├── entidades/          ← modelos de domínio e persistência (RAM e arquivo binário)
+├── entidades/          ← domínio: modelos, regras e as PORTAS de persistência (interfaces)
 │   ├── erros/           ← ErroDeValidacao, ErroDePersistencia e subclasses
 │   └── validacao/        ← ValidadorCredenciais (login, senha)
-└── controle/            ← orquestram casos de uso, chamando as entidades
+├── controle/            ← orquestram casos de uso, chamando as entidades
+└── infra/              ← adaptadores das portas: persistência em RAM e arquivo binário
 ```
 
 A camada `fronteira` (telas/API) será adicionada quando a stack de interface for definida (ver [`01-visao.md`](01-visao.md) §2.5).
 
-**Regra de dependência:** `controle` depende de `entidades`; `entidades` não depende de `controle`.
+**Regra de dependência:** `controle` e `infra` dependem de `entidades`; `entidades` não depende de ninguém. Os adaptadores de `infra` implementam as interfaces (portas) definidas no domínio — inversão de dependência (ver [ADR-0001](07-arquitetura/adr/0001-persistencia-substituivel.md)).
 
 ## 2. Diagrama de classes de projeto
 
