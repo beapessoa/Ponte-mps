@@ -10,7 +10,7 @@ Com a Sprint 3, o sistema passou a ter três controladores (`ControladorCadastro
 
 ## Decisão
 
-Uma única classe, `FacadeSingletonController`, concentra os três controladores (Facade) e é acessada por uma única instância compartilhada obtida via `FacadeSingletonController.obterInstancia()` (Singleton), que cria os repositórios padrão (`criarRepositorioUsuarios()`, `RepositorioVagasRAM`) apenas na primeira chamada. A fachada expõe os métodos de cadastro, listagem e CRUD de cada controlador, além de `contarEntidadesCadastradas()`, que soma o total de usuários e de vagas. `FacadeSingletonController.reiniciar()` descarta a instância atual, para permitir testes isolados.
+Uma única classe, `FacadeSingletonController`, concentra os três controladores (Facade) e é acessada por uma única instância compartilhada obtida via `FacadeSingletonController.obterInstancia()` (Singleton), que cria os repositórios padrão (`criarRepositorioUsuarios()`, `criarRepositorioVagas()`) apenas na primeira chamada. A fronteira pode, em vez disso, chamar `FacadeSingletonController.inicializar(tipo)` uma vez no início da execução para escolher RAM ou arquivo. A fachada expõe os métodos de cadastro, listagem e CRUD de cada controlador, além de `contarEntidadesCadastradas()`, que soma o total de usuários e de vagas. `FacadeSingletonController.reiniciar()` descarta a instância atual, para permitir testes isolados.
 
 ## Alternativas consideradas
 
