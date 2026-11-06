@@ -16,7 +16,6 @@ Este repositório especifica a **Ponte**, uma plataforma que conecta organizaç�
 | `docs/02-glossario.md` | Termos do domínio |
 | `docs/03-elicitacao.md` | Técnicas de elicitação usadas e seus registros |
 | `openspec/specs/` | Requisitos funcionais e não funcionais (fonte da verdade) |
-| `docs/specs/` | Casos de uso, diagramas de classes de análise e módulo de gerenciamento de usuários (ainda no formato anterior; migração em andamento) |
 
 ### 1.3 Documentos relacionados
 
@@ -51,7 +50,7 @@ A Ponte é um sistema **independente e auto-contido** nesta fase do projeto: nã
 - Inscrição simplificada em ações e gestão das inscrições pela ONG (aprovar/recusar);
 - Lembretes sobre ações aprovadas, avaliação mútua entre ONG e voluntário, histórico de participações (currículo de impacto) e emissão de certificados digitais de horas.
 
-**Priorização.** Das 10 funcionalidades levantadas, o núcleo mínimo que concentra o maior valor para o produto — RF01 (Cadastro de ONG) e RF02 (Cadastro de Voluntário) — representa os **20% mais importantes do sistema** e foi o primeiro a ser implementado, na Sprint 1 (módulo de [Gerenciamento de Usuários](specs/gerenciamento-usuarios.md)). Dos demais requisitos classificados como **Essenciais**, RF03 (Publicação de Vagas, incluindo atualização e remoção) também já foi implementado, na Sprint 3; RF04 (Match) e RF05 (Inscrição) ainda não. Juntos eles completam o ciclo *core business* da plataforma (cadastro → publicação → match → inscrição). Requisitos **Importantes** (RF06–RF09) e **Desejáveis** (RF10) detalham o restante do produto. Ver a priorização e o status de implementação completos, requisito a requisito, em [`openspec/specs/`](../openspec/specs/).
+**Priorização.** Das 10 funcionalidades levantadas, o núcleo mínimo que concentra o maior valor para o produto — RF01 (Cadastro de ONG) e RF02 (Cadastro de Voluntário) — representa os **20% mais importantes do sistema** e foi o primeiro a ser implementado, na Sprint 1 (módulo de [Gerenciamento de Usuários](../openspec/specs/usuarios/spec.md)). Dos demais requisitos classificados como **Essenciais**, RF03 (Publicação de Vagas, incluindo atualização e remoção) também já foi implementado, na Sprint 3; RF04 (Match) e RF05 (Inscrição) ainda não. Juntos eles completam o ciclo *core business* da plataforma (cadastro → publicação → match → inscrição). Requisitos **Importantes** (RF06–RF09) e **Desejáveis** (RF10) detalham o restante do produto. Ver a priorização e o status de implementação completos, requisito a requisito, em [`openspec/specs/`](../openspec/specs/).
 
 **Escopo negativo (o que o sistema não fará):**
 

@@ -8,7 +8,7 @@ Permite que um voluntário crie seu perfil informando habilidades, disponibilida
 | **Prioridade** | Essencial |
 | **Requisitos** | RF02, NF-USA-02, NF-SEG-01 |
 | **Interfaces** | — (pendente, UI ainda não definida) |
-| **Status** | Implementado na Sprint 1 — ver [`docs/specs/gerenciamento-usuarios.md`](../specs/gerenciamento-usuarios.md) |
+| **Status** | Implementado na Sprint 1 — ver [`openspec/specs/usuarios`](../../openspec/specs/usuarios/spec.md) |
 
 **Entradas e pré-condições**
 - O voluntário ainda não possui cadastro na plataforma.

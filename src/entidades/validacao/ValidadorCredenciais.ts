@@ -23,7 +23,7 @@ export function validarLogin(login: string): void {
 }
 
 /**
- * Segue a política de senha padrão do AWS IAM (ver docs/specs/tratamento-erros-persistencia.md):
+ * Segue a política de senha padrão do AWS IAM (ver openspec/specs/usuarios/spec.md):
  * 8–128 caracteres, ao menos 3 dos 4 tipos de caractere, e diferente do login.
  */
 export function validarSenha(senha: string, login: string): void {
