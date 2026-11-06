@@ -20,7 +20,7 @@ Os usuários já têm CRUD com persistência substituível (ADR-0001). A Sprint 
 - **`ControladorVagas` separado de `ControladorCadastro`.** Cada controle orquestra uma entidade, o que mantém o padrão por caso de uso do ICONIX.
 - **Vínculo por `ongId`, verificado no controle.** `ControladorVagas` recebe também o `RepositorioUsuarios` e só publica se o id pertence a uma `Ong`. Alternativa descartada: guardar a referência ao objeto `Ong` dentro de `Vaga`. Isso duplicaria o usuário na persistência e quebraria a serialização em arquivo.
 - **Validação única `validarCampos`**, usada na publicação e na atualização. A atualização monta o estado final antes de validar e só então aplica a mudança, então uma atualização inválida não deixa a vaga pela metade.
-- **`FacadeSingletonController`** cria e guarda os três controles. `inicializar(tipo)` permite que a fronteira escolha a persistência no início da execução. Registrado no [ADR-0002](../../../docs/07-arquitetura/adr/0002-facade-singleton-controller.md).
+- **`FacadeSingletonController`** cria e guarda os três controles. `inicializar(tipo)` permite que a fronteira escolha a persistência no início da execução. Registrado no [ADR-0002](../../../../docs/07-arquitetura/adr/0002-facade-singleton-controller.md).
 
 ## Risks / Trade-offs
 
