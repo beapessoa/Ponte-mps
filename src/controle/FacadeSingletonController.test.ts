@@ -23,6 +23,25 @@ describe('FacadeSingletonController', () => {
     expect(primeira).not.toBe(segunda);
   });
 
+  it('deve_inicializar_a_fachada_com_o_mecanismo_escolhido', () => {
+    const inicializada = FacadeSingletonController.inicializar('ram');
+
+    expect(FacadeSingletonController.obterInstancia()).toBe(inicializada);
+  });
+
+  it('deve_lancar_erro_ao_inicializar_a_fachada_duas_vezes', () => {
+    FacadeSingletonController.inicializar('ram');
+
+    expect(() => FacadeSingletonController.inicializar('ram')).toThrow(/já foi inicializada/);
+  });
+
+  it('deve_recusar_vaga_de_ong_inexistente_atraves_da_fachada', () => {
+    const facade = FacadeSingletonController.obterInstancia();
+
+    expect(() => facade.publicarVaga(42, '2026-11-20', 'Centro Comunitário', 5, ['primeiros socorros'])).toThrow();
+    expect(facade.contarEntidadesCadastradas()).toBe(0);
+  });
+
   it('deve_cadastrar_e_listar_usuarios_atraves_da_fachada', () => {
     const facade = FacadeSingletonController.obterInstancia();
 

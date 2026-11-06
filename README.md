@@ -15,9 +15,10 @@ src/
   entidades/   # domínio: modelos, regras e as PORTAS de persistência (interfaces)
   controle/    # orquestram casos de uso, chamando as entidades
   infra/       # adaptadores concretos das portas: persistência em RAM e arquivo binário
+  fronteira/   # interface com o usuário: CLI (ponto de entrada), fala só com a fachada
 ```
 
-A persistência fica em `infra/` (adaptadores) e depende das interfaces definidas no domínio (`entidades/`), não o contrário — inversão de dependência, conforme o [ADR-0001](docs/07-arquitetura/adr/0001-persistencia-substituivel.md). A camada `fronteira` (telas/API) será adicionada quando a stack de interface for definida.
+A persistência fica em `infra/` (adaptadores) e depende das interfaces definidas no domínio (`entidades/`), não o contrário — inversão de dependência, conforme o [ADR-0001](docs/07-arquitetura/adr/0001-persistencia-substituivel.md). A camada `fronteira` tem, por enquanto, uma CLI (`src/fronteira/cli.ts`) que escolhe o mecanismo de persistência no início da execução e acessa o sistema só pela `FacadeSingletonController` ([ADR-0002](docs/07-arquitetura/adr/0002-facade-singleton-controller.md)); as telas web virão quando a stack de interface for definida.
 
 ## Especificação
 
@@ -52,4 +53,7 @@ npm install
 npm test        # roda a suíte de testes
 npm run build   # compila para dist/
 npm run typecheck
+npm start       # compila e abre a CLI; pergunta se os usuários ficam em RAM ou em arquivo binário
 ```
+
+No modo arquivo, os usuários são gravados em `usuarios.bin` (altere com `PONTE_ARQUIVO_USUARIOS=<caminho>`).
