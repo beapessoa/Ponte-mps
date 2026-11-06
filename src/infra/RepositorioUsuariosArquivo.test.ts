@@ -6,6 +6,7 @@ import { ErroDeArquivo } from '../entidades/erros/ErroDePersistencia.js';
 import { Ong } from '../entidades/Ong.js';
 import { RepositorioUsuariosArquivo } from './RepositorioUsuariosArquivo.js';
 import { Voluntario } from '../entidades/Voluntario.js';
+import { EntidadeNaoEncontradaError } from '../entidades/erros/EntidadeNaoEncontradaError.js';
 
 const SENHA_VALIDA = 'Abcdef@1';
 
@@ -111,7 +112,7 @@ describe('RepositorioUsuariosArquivo', () => {
     const ong = new Ong('Amigos do Bairro', 'amigos', SENHA_VALIDA, 'Saúde', 'Ações de saúde.');
     ong.id = 999;
 
-    expect(() => repositorio.atualizar(ong)).toThrow();
+    expect(() => repositorio.atualizar(ong)).toThrow(EntidadeNaoEncontradaError);
   });
 
   it('deve_remover_usuario_existente', () => {
@@ -128,7 +129,7 @@ describe('RepositorioUsuariosArquivo', () => {
   it('deve_lancar_erro_ao_remover_usuario_inexistente', () => {
     const repositorio = new RepositorioUsuariosArquivo(caminhoArquivo);
 
-    expect(() => repositorio.remover(999)).toThrow();
+    expect(() => repositorio.remover(999)).toThrow(EntidadeNaoEncontradaError);
   });
 
   it('nao_deve_atribuir_id_ao_usuario_quando_a_escrita_falha', () => {

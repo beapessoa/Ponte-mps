@@ -38,9 +38,9 @@ flowchart TB
         portas["Portas: RepositorioUsuarios,<br/>RepositorioVagas"]
     end
     subgraph infra["infra"]
-        fab["criarRepositorioUsuarios<br/>(Factory Method)"]
+        fab["criarRepositorioUsuarios<br/>criarRepositorioVagas<br/>(Factory Method)"]
         ram["RepositorioUsuariosRAM<br/>RepositorioVagasRAM"]
-        arq["RepositorioUsuariosArquivo<br/>(serialização v8)"]
+        arq["RepositorioUsuariosArquivo<br/>RepositorioVagasArquivo<br/>(serialização v8)"]
     end
 
     cli --> facade
@@ -65,14 +65,14 @@ flowchart TB
 
 ### Atual (Sprint 3)
 
-Um único processo Node.js na máquina do usuário. Os usuários ficam em memória ou num arquivo binário local, conforme a escolha feita ao iniciar a CLI. As vagas, por enquanto, ficam só em memória (ver [`08-projeto.md`](../08-projeto.md) §2).
+Um único processo Node.js na máquina do usuário. Usuários e vagas ficam em memória ou em arquivos binários locais, conforme a escolha feita ao iniciar a CLI.
 
 ```mermaid
 flowchart LR
     pessoa["Usuário no terminal"]
     subgraph maquina["Computador local"]
         node["Processo Node.js 22<br/>dist/fronteira/cli.js"]
-        bin[("usuarios.bin<br/>(modo arquivo)")]
+        bin[("usuarios.bin e vagas.bin<br/>(modo arquivo)")]
     end
     pessoa -->|stdin/stdout| node
     node -->|lê e grava| bin
@@ -99,7 +99,7 @@ Para trocar o arquivo binário pelo banco basta escrever um novo adaptador em `i
 
 | RNF | Decisão / tática arquitetural | Onde | Situação |
 |---|---|---|---|
-| NF-MAN-01 — Camadas e persistência substituível | Os controles dependem das interfaces `RepositorioUsuarios`/`RepositorioVagas`, e a fábrica escolhe a implementação (RAM ou arquivo) no início da execução | `entidades/` (portas), `infra/fabricaRepositorioUsuarios.ts`, [ADR-0001](adr/0001-persistencia-substituivel.md) | Atendido para usuários; vagas só em RAM até a Sprint 4 |
+| NF-MAN-01 — Camadas e persistência substituível | Os controles dependem das interfaces `RepositorioUsuarios`/`RepositorioVagas`, e a fábrica escolhe a implementação (RAM ou arquivo) no início da execução | `entidades/` (portas), `infra/fabricaRepositorios.ts`, [ADR-0001](adr/0001-persistencia-substituivel.md) | Atendido (usuários e vagas); banco de dados no alvo |
 | NF-CON-02 — Falhas de armazenamento tratadas | Todo erro de E/S é capturado no adaptador e convertido em `ErroDeArquivo` (subclasse de `ErroDePersistencia`) com a causa original. A CLI mostra só a mensagem | `infra/RepositorioUsuariosArquivo.ts`, `fronteira/cli.ts` | Atendido |
 | NF-SEG-02 — Senha nunca exibida | A listagem passa por `omitirSenha()` antes de sair do controle, e a fachada devolve `Omit<Usuario, 'senha'>`. Nenhuma tela tem campo de senha legível | `controle/ControladorListagem.ts`, `entidades/Usuario.ts`, TL01 | Atendido |
 | NF-USA-01 — Publicar vaga em ≤ 2 min | Formulário de publicação só com os 4 campos obrigatórios. O publicador vem da sessão, não é digitado. A validação acontece no controle e devolve mensagens sem jargão | TL02, `validarCampos` em `controle/ControladorVagas.ts` | Regras atendidas; teste com usuárias pendente (depende da tela web) |

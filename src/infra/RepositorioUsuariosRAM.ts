@@ -1,5 +1,6 @@
 import { RepositorioUsuarios } from '../entidades/RepositorioUsuarios.js';
 import { Usuario } from '../entidades/Usuario.js';
+import { EntidadeNaoEncontradaError } from '../entidades/erros/EntidadeNaoEncontradaError.js';
 
 /** Mantém os usuários apenas em memória: a coleção é perdida ao reiniciar o processo. */
 export class RepositorioUsuariosRAM implements RepositorioUsuarios {
@@ -23,7 +24,7 @@ export class RepositorioUsuariosRAM implements RepositorioUsuarios {
   atualizar(usuario: Usuario): Usuario {
     const indice = this.usuarios.findIndex((u) => u.id === usuario.id);
     if (indice === -1) {
-      throw new Error(`Usuário ${usuario.id} não encontrado.`);
+      throw new EntidadeNaoEncontradaError(`Usuário ${usuario.id} não encontrado.`);
     }
     this.usuarios[indice] = usuario;
     return usuario;
@@ -32,7 +33,7 @@ export class RepositorioUsuariosRAM implements RepositorioUsuarios {
   remover(id: number): void {
     const indice = this.usuarios.findIndex((usuario) => usuario.id === id);
     if (indice === -1) {
-      throw new Error(`Usuário ${id} não encontrado.`);
+      throw new EntidadeNaoEncontradaError(`Usuário ${id} não encontrado.`);
     }
     this.usuarios.splice(indice, 1);
   }

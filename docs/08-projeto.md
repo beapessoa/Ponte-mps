@@ -89,7 +89,13 @@ classDiagram
         -vagas: Vaga[]
         -proximoId: number
     }
+    class RepositorioVagasArquivo {
+        <<entidade>>
+        -caminhoArquivo: string
+    }
     RepositorioVagas <|.. RepositorioVagasRAM
+    RepositorioVagas <|.. RepositorioVagasArquivo
+    RepositorioVagasArquivo ..> ErroDeArquivo : lança
     RepositorioVagas o-- Vaga : armazena 1..*
 
     class ControladorCadastro {
@@ -141,7 +147,19 @@ classDiagram
     class SenhaInvalidaError
     ErroDeValidacao <|-- LoginInvalidoError
     ErroDeValidacao <|-- SenhaInvalidaError
+    class CamposObrigatoriosError
+    ErroDeValidacao <|-- CamposObrigatoriosError
     Usuario ..> ErroDeValidacao : lança
+    ControladorCadastro ..> CamposObrigatoriosError : lança
+    ControladorVagas ..> CamposObrigatoriosError : lança
+
+    class EntidadeNaoEncontradaError {
+        <<erro>>
+    }
+    ControladorCadastro ..> EntidadeNaoEncontradaError : lança
+    ControladorVagas ..> EntidadeNaoEncontradaError : lança
+    RepositorioUsuarios ..> EntidadeNaoEncontradaError : lança
+    RepositorioVagas ..> EntidadeNaoEncontradaError : lança
 
     class ErroDePersistencia {
         <<erro>>
@@ -152,7 +170,7 @@ classDiagram
     RepositorioUsuariosArquivo ..> ErroDeArquivo : lança
 ```
 
-Uma função `criarRepositorioUsuarios(tipo, caminhoArquivo?)` (não é uma classe, por isso fora do diagrama) seleciona a implementação de `RepositorioUsuarios` no início da execução — ver [ADR-0001](07-arquitetura/adr/0001-persistencia-substituivel.md). `FacadeSingletonController` concentra o acesso aos três controladores atrás de uma única instância compartilhada — ver [ADR-0002](07-arquitetura/adr/0002-facade-singleton-controller.md). `RepositorioVagas` ainda só tem implementação em memória (`RepositorioVagasRAM`); a persistência em arquivo/banco para `Vaga` fica para quando o padrão Repository for generalizado (Sprint 4).
+As funções `criarRepositorioUsuarios(tipo, caminhoArquivo?)` e `criarRepositorioVagas(tipo, caminhoArquivo?)` (não são classes, por isso ficam fora do diagrama) selecionam a implementação de cada repositório no início da execução — ver [ADR-0001](07-arquitetura/adr/0001-persistencia-substituivel.md). `FacadeSingletonController` concentra o acesso aos três controladores atrás de uma única instância compartilhada — ver [ADR-0002](07-arquitetura/adr/0002-facade-singleton-controller.md). A leitura e gravação dos arquivos binários fica em `infra/arquivoBinario.ts`, compartilhado por `RepositorioUsuariosArquivo` e `RepositorioVagasArquivo`.
 
 ## 3. Padrões de projeto utilizados
 
@@ -160,7 +178,7 @@ Preencha uma linha por padrão aplicado. Cada padrão relevante também tem um A
 
 | Padrão | Sprint | Classes participantes (papel no padrão) | Problema que resolve no projeto | ADR |
 |---|---|---|---|---|
-| Factory Method | S2 | `criarRepositorioUsuarios` (fábrica) → `RepositorioUsuariosRAM` / `RepositorioUsuariosArquivo` | Escolher a implementação de persistência sem acoplar os controladores a uma classe concreta | [ADR-0001](07-arquitetura/adr/0001-persistencia-substituivel.md) |
+| Factory Method | S2 | `criarRepositorioUsuarios` / `criarRepositorioVagas` (fábricas) → implementações em RAM ou arquivo de cada porta | Escolher a implementação de persistência sem acoplar os controladores a uma classe concreta | [ADR-0001](07-arquitetura/adr/0001-persistencia-substituivel.md) |
 | Singleton | S3 | `FacadeSingletonController` (`inicializar(tipo)`, `obterInstancia()`, `reiniciar()`) | Garantir uma única instância compartilhada dos controladores, evitando recriar os repositórios em cada ponto de uso | [ADR-0002](07-arquitetura/adr/0002-facade-singleton-controller.md) |
 | Facade | S3 | `FacadeSingletonController` unificando `ControladorCadastro`, `ControladorListagem` e `ControladorVagas` | Expor uma única API simples para cadastro/listagem/CRUD de usuários e vagas, com `contarEntidadesCadastradas()` agregando os dois | [ADR-0002](07-arquitetura/adr/0002-facade-singleton-controller.md) |
 | Repository | S4 | | | |

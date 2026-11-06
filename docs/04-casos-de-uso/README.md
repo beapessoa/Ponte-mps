@@ -65,10 +65,10 @@ Os três casos de uso mais relevantes, descritos em detalhe (fluxo principal, fl
 | UC05 Inscrever-se em Vaga | Voluntário | RF05, NF-USA-02, NF-CON-01 | Não implementado | [UC05](UC05-inscrever-se-em-vaga.md) |
 | UC06 Gerenciar Inscrições | ONG | RF06, RF08, NF-USA-01, NF-CON-01 | Não implementado | [UC06](UC06-gerenciar-inscricoes.md) |
 | UC07 Avaliar Mutuamente | ONG, Voluntário | RF07, RF09, RF10, NF-SEG-01, NF-CON-01 | Não implementado | [UC07](UC07-avaliar-mutuamente.md) |
-| UC08 Listar Usuários Cadastrados | ONG, Voluntário | — | Implementado (Sprint 1) | [`docs/specs/gerenciamento-usuarios.md`](../specs/gerenciamento-usuarios.md) |
+| UC08 Listar Usuários Cadastrados | ONG, Voluntário | — | Implementado (Sprint 1) | [UC08](UC08-listar-usuarios.md) |
 | UC09 Atualizar Vaga | ONG | RF11 | Implementado (Sprint 3) | [UC09](UC09-atualizar-vaga.md) |
 | UC10 Remover Vaga | ONG | RF12 | Implementado (Sprint 3) | [UC10](UC10-remover-vaga.md) |
 | UC11 Atualizar Usuário | ONG, Voluntário | RF13 | Implementado (Sprint 3) | [UC11](UC11-atualizar-usuario.md) |
 | UC12 Remover Usuário | ONG, Voluntário | RF14 | Implementado (Sprint 3) | [UC12](UC12-remover-usuario.md) |
 
-Imagem original (anexo, só UC01/UC02/UC08): [`docs/specs/anexos/diagrama-casos-de-uso-gerenciamento-usuarios.png`](../specs/anexos/diagrama-casos-de-uso-gerenciamento-usuarios.png).
+Imagem original (anexo, só UC01/UC02/UC08): [`docs/img/diagrama-casos-de-uso-gerenciamento-usuarios.png`](../img/diagrama-casos-de-uso-gerenciamento-usuarios.png).

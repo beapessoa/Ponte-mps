@@ -1,10 +1,9 @@
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
-import { deserialize, serialize } from 'node:v8';
-import { ErroDeArquivo } from '../entidades/erros/ErroDePersistencia.js';
 import { Ong } from '../entidades/Ong.js';
 import { RepositorioUsuarios } from '../entidades/RepositorioUsuarios.js';
 import { Usuario } from '../entidades/Usuario.js';
 import { Voluntario } from '../entidades/Voluntario.js';
+import { EntidadeNaoEncontradaError } from '../entidades/erros/EntidadeNaoEncontradaError.js';
+import { gravarRegistros, lerRegistros, proximoId } from './arquivoBinario.js';
 
 /**
  * A serialização v8 não preserva o protótipo das classes (vira um objeto
@@ -44,8 +43,7 @@ export class RepositorioUsuariosArquivo implements RepositorioUsuarios {
 
   adicionar(usuario: Usuario): Usuario {
     const usuarios = this.lerArquivo();
-    const maiorId = usuarios.reduce((maior, u) => Math.max(maior, u.id ?? 0), 0);
-    const novoId = maiorId + 1;
+    const novoId = proximoId(usuarios);
     this.escreverArquivo([...usuarios, { ...usuario, id: novoId }]);
     usuario.id = novoId;
     return usuario;
@@ -63,7 +61,7 @@ export class RepositorioUsuariosArquivo implements RepositorioUsuarios {
     const usuarios = this.lerArquivo();
     const indice = usuarios.findIndex((u) => u.id === usuario.id);
     if (indice === -1) {
-      throw new Error(`Usuário ${usuario.id} não encontrado.`);
+      throw new EntidadeNaoEncontradaError(`Usuário ${usuario.id} não encontrado.`);
     }
     usuarios[indice] = usuario;
     this.escreverArquivo(usuarios);
@@ -74,30 +72,17 @@ export class RepositorioUsuariosArquivo implements RepositorioUsuarios {
     const usuarios = this.lerArquivo();
     const indice = usuarios.findIndex((usuario) => usuario.id === id);
     if (indice === -1) {
-      throw new Error(`Usuário ${id} não encontrado.`);
+      throw new EntidadeNaoEncontradaError(`Usuário ${id} não encontrado.`);
     }
     usuarios.splice(indice, 1);
     this.escreverArquivo(usuarios);
   }
 
   private lerArquivo(): Usuario[] {
-    if (!existsSync(this.caminhoArquivo)) {
-      return [];
-    }
-    try {
-      const conteudo = readFileSync(this.caminhoArquivo);
-      const registros = deserialize(conteudo) as Record<string, unknown>[];
-      return registros.map(reidratarUsuario);
-    } catch (causa) {
-      throw new ErroDeArquivo(`Falha ao ler o arquivo de usuários em "${this.caminhoArquivo}".`, causa);
-    }
+    return lerRegistros(this.caminhoArquivo, 'usuários', reidratarUsuario);
   }
 
   private escreverArquivo(usuarios: Usuario[]): void {
-    try {
-      writeFileSync(this.caminhoArquivo, serialize(usuarios));
-    } catch (causa) {
-      throw new ErroDeArquivo(`Falha ao gravar o arquivo de usuários em "${this.caminhoArquivo}".`, causa);
-    }
+    gravarRegistros(this.caminhoArquivo, 'usuários', usuarios);
   }
 }

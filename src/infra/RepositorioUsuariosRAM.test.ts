@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { RepositorioUsuariosRAM } from './RepositorioUsuariosRAM.js';
 import { Voluntario } from '../entidades/Voluntario.js';
+import { EntidadeNaoEncontradaError } from '../entidades/erros/EntidadeNaoEncontradaError.js';
 
 function criarVoluntario(nome: string, login: string): Voluntario {
   return new Voluntario(nome, login, 'Abcdef@1', ['primeiros socorros'], 'manhãs', 'João Pessoa/PB');
@@ -71,7 +72,7 @@ describe('RepositorioUsuariosRAM', () => {
     const voluntario = criarVoluntario('Rafael', 'rafael');
     voluntario.id = 999;
 
-    expect(() => repositorio.atualizar(voluntario)).toThrow();
+    expect(() => repositorio.atualizar(voluntario)).toThrow(EntidadeNaoEncontradaError);
   });
 
   it('deve_remover_usuario_existente', () => {
@@ -86,6 +87,6 @@ describe('RepositorioUsuariosRAM', () => {
   it('deve_lancar_erro_ao_remover_usuario_inexistente', () => {
     const repositorio = new RepositorioUsuariosRAM();
 
-    expect(() => repositorio.remover(999)).toThrow();
+    expect(() => repositorio.remover(999)).toThrow(EntidadeNaoEncontradaError);
   });
 });

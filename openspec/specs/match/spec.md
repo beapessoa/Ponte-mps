@@ -12,3 +12,8 @@ O sistema DEVE sugerir automaticamente ações compatíveis com o perfil técnic
 **Prioridade:** Essencial
 **Casos de uso:** UC04
 **Status:** Não implementado
+
+#### Scenario: Sugestão só de vagas compatíveis
+- **GIVEN** um voluntário com a habilidade "enfermagem", disponível de manhã, em João Pessoa, e duas vagas publicadas: uma em João Pessoa pela manhã exigindo "enfermagem" e outra exigindo "carpintaria"
+- **WHEN** o voluntário abre as sugestões (Match)
+- **THEN** o sistema sugere apenas a vaga de enfermagem

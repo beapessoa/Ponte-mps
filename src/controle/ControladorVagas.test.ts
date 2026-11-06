@@ -4,6 +4,8 @@ import { Voluntario } from '../entidades/Voluntario.js';
 import { RepositorioUsuariosRAM } from '../infra/RepositorioUsuariosRAM.js';
 import { RepositorioVagasRAM } from '../infra/RepositorioVagasRAM.js';
 import { ControladorVagas } from './ControladorVagas.js';
+import { CamposObrigatoriosError } from '../entidades/erros/ErroDeValidacao.js';
+import { EntidadeNaoEncontradaError } from '../entidades/erros/EntidadeNaoEncontradaError.js';
 
 const SENHA_VALIDA = 'Abcdef@1';
 
@@ -22,7 +24,7 @@ describe('ControladorVagas', () => {
   it('deve_lancar_erro_ao_publicar_vaga_para_ong_inexistente', () => {
     expect(() =>
       controlador.publicarVaga(999, '2026-11-20', 'Centro Comunitário', 5, ['primeiros socorros']),
-    ).toThrow(/ONG 999 não encontrada/);
+    ).toThrow(EntidadeNaoEncontradaError);
     expect(repositorio.listarTodas()).toHaveLength(0);
   });
 
@@ -33,7 +35,7 @@ describe('ControladorVagas', () => {
 
     expect(() =>
       controlador.publicarVaga(voluntario.id!, '2026-11-20', 'Centro Comunitário', 5, ['primeiros socorros']),
-    ).toThrow(/não encontrada/);
+    ).toThrow(EntidadeNaoEncontradaError);
     expect(repositorio.listarTodas()).toHaveLength(0);
   });
 
@@ -47,24 +49,24 @@ describe('ControladorVagas', () => {
   it('deve_lancar_erro_ao_publicar_vaga_sem_data', () => {
     expect(() =>
       controlador.publicarVaga(1, '   ', 'Centro Comunitário', 5, ['primeiros socorros']),
-    ).toThrow();
+    ).toThrow(CamposObrigatoriosError);
     expect(repositorio.listarTodas()).toHaveLength(0);
   });
 
   it('deve_lancar_erro_ao_publicar_vaga_sem_local', () => {
-    expect(() => controlador.publicarVaga(1, '2026-11-20', '', 5, ['primeiros socorros'])).toThrow();
+    expect(() => controlador.publicarVaga(1, '2026-11-20', '', 5, ['primeiros socorros'])).toThrow(CamposObrigatoriosError);
     expect(repositorio.listarTodas()).toHaveLength(0);
   });
 
   it('deve_lancar_erro_ao_publicar_vaga_com_quantidade_zero', () => {
     expect(() =>
       controlador.publicarVaga(1, '2026-11-20', 'Centro Comunitário', 0, ['primeiros socorros']),
-    ).toThrow();
+    ).toThrow(CamposObrigatoriosError);
     expect(repositorio.listarTodas()).toHaveLength(0);
   });
 
   it('deve_lancar_erro_ao_publicar_vaga_sem_habilidades_exigidas', () => {
-    expect(() => controlador.publicarVaga(1, '2026-11-20', 'Centro Comunitário', 5, [])).toThrow();
+    expect(() => controlador.publicarVaga(1, '2026-11-20', 'Centro Comunitário', 5, [])).toThrow(CamposObrigatoriosError);
     expect(repositorio.listarTodas()).toHaveLength(0);
   });
 
@@ -92,12 +94,12 @@ describe('ControladorVagas', () => {
   it('deve_lancar_erro_ao_atualizar_vaga_com_dados_invalidos', () => {
     const vaga = controlador.publicarVaga(1, '2026-11-20', 'Centro Comunitário', 5, ['primeiros socorros']);
 
-    expect(() => controlador.atualizarVaga(vaga.id!, { local: '' })).toThrow();
+    expect(() => controlador.atualizarVaga(vaga.id!, { local: '' })).toThrow(CamposObrigatoriosError);
     expect(controlador.buscarVaga(vaga.id!)?.local).toBe('Centro Comunitário');
   });
 
   it('deve_lancar_erro_ao_atualizar_vaga_inexistente', () => {
-    expect(() => controlador.atualizarVaga(999, { quantidadeVagas: 8 })).toThrow();
+    expect(() => controlador.atualizarVaga(999, { quantidadeVagas: 8 })).toThrow(EntidadeNaoEncontradaError);
   });
 
   it('deve_remover_vaga_existente', () => {
@@ -109,6 +111,6 @@ describe('ControladorVagas', () => {
   });
 
   it('deve_lancar_erro_ao_remover_vaga_inexistente', () => {
-    expect(() => controlador.removerVaga(999)).toThrow();
+    expect(() => controlador.removerVaga(999)).toThrow(EntidadeNaoEncontradaError);
   });
 });
