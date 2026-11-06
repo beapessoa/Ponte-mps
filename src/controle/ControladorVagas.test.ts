@@ -93,6 +93,7 @@ describe('ControladorVagas', () => {
     const vaga = controlador.publicarVaga(1, '2026-11-20', 'Centro Comunitário', 5, ['primeiros socorros']);
 
     expect(() => controlador.atualizarVaga(vaga.id!, { local: '' })).toThrow();
+    expect(controlador.buscarVaga(vaga.id!)?.local).toBe('Centro Comunitário');
   });
 
   it('deve_lancar_erro_ao_atualizar_vaga_inexistente', () => {
