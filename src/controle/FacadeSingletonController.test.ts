@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { FacadeSingletonController } from './FacadeSingletonController.js';
+import { EntidadeNaoEncontradaError } from '../entidades/erros/EntidadeNaoEncontradaError.js';
 
 const SENHA_VALIDA = 'Abcdef@1';
 
@@ -38,7 +39,7 @@ describe('FacadeSingletonController', () => {
   it('deve_recusar_vaga_de_ong_inexistente_atraves_da_fachada', () => {
     const facade = FacadeSingletonController.obterInstancia();
 
-    expect(() => facade.publicarVaga(42, '2026-11-20', 'Centro Comunitário', 5, ['primeiros socorros'])).toThrow();
+    expect(() => facade.publicarVaga(42, '2026-11-20', 'Centro Comunitário', 5, ['primeiros socorros'])).toThrow(EntidadeNaoEncontradaError);
     expect(facade.contarEntidadesCadastradas()).toBe(0);
   });
 

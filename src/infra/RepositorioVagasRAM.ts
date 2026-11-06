@@ -1,5 +1,6 @@
 import { RepositorioVagas } from '../entidades/RepositorioVagas.js';
 import { Vaga } from '../entidades/Vaga.js';
+import { EntidadeNaoEncontradaError } from '../entidades/erros/EntidadeNaoEncontradaError.js';
 
 /** Mantém as vagas apenas em memória: a coleção é perdida ao reiniciar o processo. */
 export class RepositorioVagasRAM implements RepositorioVagas {
@@ -23,7 +24,7 @@ export class RepositorioVagasRAM implements RepositorioVagas {
   atualizar(vaga: Vaga): Vaga {
     const indice = this.vagas.findIndex((v) => v.id === vaga.id);
     if (indice === -1) {
-      throw new Error(`Vaga ${vaga.id} não encontrada.`);
+      throw new EntidadeNaoEncontradaError(`Vaga ${vaga.id} não encontrada.`);
     }
     this.vagas[indice] = vaga;
     return vaga;
@@ -32,7 +33,7 @@ export class RepositorioVagasRAM implements RepositorioVagas {
   remover(id: number): void {
     const indice = this.vagas.findIndex((vaga) => vaga.id === id);
     if (indice === -1) {
-      throw new Error(`Vaga ${id} não encontrada.`);
+      throw new EntidadeNaoEncontradaError(`Vaga ${id} não encontrada.`);
     }
     this.vagas.splice(indice, 1);
   }

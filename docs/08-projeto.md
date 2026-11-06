@@ -141,7 +141,19 @@ classDiagram
     class SenhaInvalidaError
     ErroDeValidacao <|-- LoginInvalidoError
     ErroDeValidacao <|-- SenhaInvalidaError
+    class CamposObrigatoriosError
+    ErroDeValidacao <|-- CamposObrigatoriosError
     Usuario ..> ErroDeValidacao : lança
+    ControladorCadastro ..> CamposObrigatoriosError : lança
+    ControladorVagas ..> CamposObrigatoriosError : lança
+
+    class EntidadeNaoEncontradaError {
+        <<erro>>
+    }
+    ControladorCadastro ..> EntidadeNaoEncontradaError : lança
+    ControladorVagas ..> EntidadeNaoEncontradaError : lança
+    RepositorioUsuarios ..> EntidadeNaoEncontradaError : lança
+    RepositorioVagas ..> EntidadeNaoEncontradaError : lança
 
     class ErroDePersistencia {
         <<erro>>

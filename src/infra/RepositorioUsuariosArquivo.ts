@@ -5,6 +5,7 @@ import { Ong } from '../entidades/Ong.js';
 import { RepositorioUsuarios } from '../entidades/RepositorioUsuarios.js';
 import { Usuario } from '../entidades/Usuario.js';
 import { Voluntario } from '../entidades/Voluntario.js';
+import { EntidadeNaoEncontradaError } from '../entidades/erros/EntidadeNaoEncontradaError.js';
 
 /**
  * A serialização v8 não preserva o protótipo das classes (vira um objeto
@@ -63,7 +64,7 @@ export class RepositorioUsuariosArquivo implements RepositorioUsuarios {
     const usuarios = this.lerArquivo();
     const indice = usuarios.findIndex((u) => u.id === usuario.id);
     if (indice === -1) {
-      throw new Error(`Usuário ${usuario.id} não encontrado.`);
+      throw new EntidadeNaoEncontradaError(`Usuário ${usuario.id} não encontrado.`);
     }
     usuarios[indice] = usuario;
     this.escreverArquivo(usuarios);
@@ -74,7 +75,7 @@ export class RepositorioUsuariosArquivo implements RepositorioUsuarios {
     const usuarios = this.lerArquivo();
     const indice = usuarios.findIndex((usuario) => usuario.id === id);
     if (indice === -1) {
-      throw new Error(`Usuário ${id} não encontrado.`);
+      throw new EntidadeNaoEncontradaError(`Usuário ${id} não encontrado.`);
     }
     usuarios.splice(indice, 1);
     this.escreverArquivo(usuarios);

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { RepositorioVagasRAM } from './RepositorioVagasRAM.js';
 import { Vaga } from '../entidades/Vaga.js';
+import { EntidadeNaoEncontradaError } from '../entidades/erros/EntidadeNaoEncontradaError.js';
 
 function criarVaga(local = 'Centro Comunitário'): Vaga {
   return new Vaga(1, '2026-11-20', local, 5, ['primeiros socorros']);
@@ -71,7 +72,7 @@ describe('RepositorioVagasRAM', () => {
     const vaga = criarVaga();
     vaga.id = 999;
 
-    expect(() => repositorio.atualizar(vaga)).toThrow();
+    expect(() => repositorio.atualizar(vaga)).toThrow(EntidadeNaoEncontradaError);
   });
 
   it('deve_remover_vaga_existente', () => {
@@ -86,6 +87,6 @@ describe('RepositorioVagasRAM', () => {
   it('deve_lancar_erro_ao_remover_vaga_inexistente', () => {
     const repositorio = new RepositorioVagasRAM();
 
-    expect(() => repositorio.remover(999)).toThrow();
+    expect(() => repositorio.remover(999)).toThrow(EntidadeNaoEncontradaError);
   });
 });
