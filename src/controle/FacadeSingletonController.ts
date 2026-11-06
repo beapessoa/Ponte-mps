@@ -1,8 +1,8 @@
-import { criarRepositorioUsuarios } from '../entidades/fabricaRepositorioUsuarios.js';
+import { criarRepositorioUsuarios, TipoPersistencia } from '../infra/fabricaRepositorioUsuarios.js';
 import { Ong } from '../entidades/Ong.js';
 import { RepositorioUsuarios } from '../entidades/RepositorioUsuarios.js';
 import { RepositorioVagas } from '../entidades/RepositorioVagas.js';
-import { RepositorioVagasRAM } from '../entidades/RepositorioVagasRAM.js';
+import { RepositorioVagasRAM } from '../infra/RepositorioVagasRAM.js';
 import { Usuario } from '../entidades/Usuario.js';
 import { Vaga } from '../entidades/Vaga.js';
 import { Voluntario } from '../entidades/Voluntario.js';
@@ -25,7 +25,22 @@ export class FacadeSingletonController {
   private constructor(repositorioUsuarios: RepositorioUsuarios, repositorioVagas: RepositorioVagas) {
     this.controladorCadastro = new ControladorCadastro(repositorioUsuarios);
     this.controladorListagem = new ControladorListagem(repositorioUsuarios);
-    this.controladorVagas = new ControladorVagas(repositorioVagas);
+    this.controladorVagas = new ControladorVagas(repositorioVagas, repositorioUsuarios);
+  }
+
+  /**
+   * Cria a única instância escolhendo o mecanismo de persistência dos usuários.
+   * Deve ser chamado uma vez, no início da execução, antes de `obterInstancia()`.
+   */
+  static inicializar(tipoPersistencia: TipoPersistencia): FacadeSingletonController {
+    if (FacadeSingletonController.instancia) {
+      throw new Error('A fachada já foi inicializada.');
+    }
+    FacadeSingletonController.instancia = new FacadeSingletonController(
+      criarRepositorioUsuarios(tipoPersistencia),
+      new RepositorioVagasRAM(),
+    );
+    return FacadeSingletonController.instancia;
   }
 
   /** Retorna a única instância da fachada, criando-a com as dependências padrão na primeira chamada. */

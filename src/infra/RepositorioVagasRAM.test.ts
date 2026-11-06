@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { RepositorioVagasRAM } from './RepositorioVagasRAM.js';
-import { Vaga } from './Vaga.js';
+import { Vaga } from '../entidades/Vaga.js';
 
 function criarVaga(local = 'Centro Comunitário'): Vaga {
   return new Vaga(1, '2026-11-20', local, 5, ['primeiros socorros']);

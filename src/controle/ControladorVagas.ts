@@ -1,3 +1,5 @@
+import { Ong } from '../entidades/Ong.js';
+import { RepositorioUsuarios } from '../entidades/RepositorioUsuarios.js';
 import { RepositorioVagas } from '../entidades/RepositorioVagas.js';
 import { Vaga } from '../entidades/Vaga.js';
 
@@ -12,7 +14,10 @@ function validarCampos({ data, local, quantidadeVagas, habilidadesExigidas }: Da
 }
 
 export class ControladorVagas {
-  constructor(private readonly repositorio: RepositorioVagas) {}
+  constructor(
+    private readonly repositorio: RepositorioVagas,
+    private readonly repositorioUsuarios: RepositorioUsuarios,
+  ) {}
 
   publicarVaga(
     ongId: number,
@@ -21,6 +26,9 @@ export class ControladorVagas {
     quantidadeVagas: number,
     habilidadesExigidas: string[],
   ): Vaga {
+    if (!(this.repositorioUsuarios.buscarPorId(ongId) instanceof Ong)) {
+      throw new Error(`ONG ${ongId} não encontrada: só uma ONG cadastrada pode publicar vagas.`);
+    }
     validarCampos({ data, local, quantidadeVagas, habilidadesExigidas });
     const vaga = new Vaga(ongId, data, local, quantidadeVagas, habilidadesExigidas);
     return this.repositorio.adicionar(vaga);

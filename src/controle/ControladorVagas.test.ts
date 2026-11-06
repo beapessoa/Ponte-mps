@@ -1,14 +1,40 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { RepositorioVagasRAM } from '../entidades/RepositorioVagasRAM.js';
+import { Ong } from '../entidades/Ong.js';
+import { Voluntario } from '../entidades/Voluntario.js';
+import { RepositorioUsuariosRAM } from '../infra/RepositorioUsuariosRAM.js';
+import { RepositorioVagasRAM } from '../infra/RepositorioVagasRAM.js';
 import { ControladorVagas } from './ControladorVagas.js';
+
+const SENHA_VALIDA = 'Abcdef@1';
 
 describe('ControladorVagas', () => {
   let repositorio: RepositorioVagasRAM;
+  let usuarios: RepositorioUsuariosRAM;
   let controlador: ControladorVagas;
 
   beforeEach(() => {
     repositorio = new RepositorioVagasRAM();
-    controlador = new ControladorVagas(repositorio);
+    usuarios = new RepositorioUsuariosRAM();
+    usuarios.adicionar(new Ong('Amigos do Bairro', 'amigos', SENHA_VALIDA, 'Saúde', 'Ações de saúde.'));
+    controlador = new ControladorVagas(repositorio, usuarios);
+  });
+
+  it('deve_lancar_erro_ao_publicar_vaga_para_ong_inexistente', () => {
+    expect(() =>
+      controlador.publicarVaga(999, '2026-11-20', 'Centro Comunitário', 5, ['primeiros socorros']),
+    ).toThrow(/ONG 999 não encontrada/);
+    expect(repositorio.listarTodas()).toHaveLength(0);
+  });
+
+  it('deve_lancar_erro_ao_publicar_vaga_com_id_de_voluntario', () => {
+    const voluntario = usuarios.adicionar(
+      new Voluntario('Rafael', 'rafael', SENHA_VALIDA, ['enfermagem'], 'manhãs', 'João Pessoa/PB'),
+    );
+
+    expect(() =>
+      controlador.publicarVaga(voluntario.id!, '2026-11-20', 'Centro Comunitário', 5, ['primeiros socorros']),
+    ).toThrow(/não encontrada/);
+    expect(repositorio.listarTodas()).toHaveLength(0);
   });
 
   it('deve_publicar_vaga_quando_os_dados_sao_validos', () => {
@@ -67,6 +93,7 @@ describe('ControladorVagas', () => {
     const vaga = controlador.publicarVaga(1, '2026-11-20', 'Centro Comunitário', 5, ['primeiros socorros']);
 
     expect(() => controlador.atualizarVaga(vaga.id!, { local: '' })).toThrow();
+    expect(controlador.buscarVaga(vaga.id!)?.local).toBe('Centro Comunitário');
   });
 
   it('deve_lancar_erro_ao_atualizar_vaga_inexistente', () => {

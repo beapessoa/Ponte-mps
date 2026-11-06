@@ -6,11 +6,11 @@ Publicação, consulta, atualização e remoção de ações (vagas) de voluntar
 ## Requirements
 
 ### Requirement: RF03 — Publicação de Vagas
-O sistema DEVE permitir que a ONG publique uma ação informando data, local, quantidade de pessoas necessárias e habilidades exigidas, para atrair o voluntariado adequado.
+O sistema DEVE permitir que a ONG publique uma ação informando data, local, quantidade de pessoas necessárias e habilidades exigidas, para atrair o voluntariado adequado. A vaga DEVE ficar vinculada a uma ONG cadastrada.
 
-**Regra de negócio:** uma vaga não pode ser publicada sem data, local, número de vagas e habilidades exigidas (RN03).
 **Prioridade:** Essencial
 **Casos de uso:** UC03
+**Regra de negócio:** uma vaga não pode ser publicada sem data, local, número de vagas e habilidades exigidas (RN03).
 **Status:** Implementado na Sprint 3 — `ControladorVagas.publicarVaga()`, vinculada à ONG por `ongId`
 
 #### Scenario: Publicação válida
@@ -23,6 +23,11 @@ O sistema DEVE permitir que a ONG publique uma ação informando data, local, qu
 - **WHEN** faltam data, local, uma quantidade de vagas maior que zero, ou habilidades exigidas
 - **THEN** o sistema recusa a publicação sem criar a vaga
 
+#### Scenario: Publicador não é uma ONG cadastrada
+- **GIVEN** não existe ONG com o id informado, ou o id pertence a um voluntário
+- **WHEN** alguém tenta publicar uma vaga com esse id
+- **THEN** o sistema recusa a publicação informando que a ONG não foi encontrada, sem criar a vaga
+
 ### Requirement: RF11 — Atualizar Vaga
 O sistema DEVE permitir que a ONG atualize data, local, quantidade de vagas e/ou habilidades exigidas de uma vaga já publicada, respeitando as mesmas regras de preenchimento obrigatório da publicação (RN03).
 
@@ -34,6 +39,11 @@ O sistema DEVE permitir que a ONG atualize data, local, quantidade de vagas e/ou
 - **GIVEN** uma vaga publicada com 5 posições
 - **WHEN** a ONG atualiza a quantidade de vagas para 8
 - **THEN** a vaga passa a ter 8 posições, mantendo os demais campos
+
+#### Scenario: Atualização inválida não altera a vaga
+- **GIVEN** uma vaga publicada no local "Centro Comunitário"
+- **WHEN** a ONG tenta atualizar o local para vazio
+- **THEN** o sistema recusa a atualização e a vaga continua com o local "Centro Comunitário"
 
 #### Scenario: Vaga inexistente
 - **GIVEN** não existe vaga com o ID informado

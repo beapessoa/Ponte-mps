@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { RepositorioUsuarios } from '../entidades/RepositorioUsuarios.js';
-import { RepositorioUsuariosRAM } from '../entidades/RepositorioUsuariosRAM.js';
+import { RepositorioUsuariosRAM } from '../infra/RepositorioUsuariosRAM.js';
 import { ControladorCadastro } from './ControladorCadastro.js';
 import { ControladorListagem } from './ControladorListagem.js';
 

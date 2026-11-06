@@ -1,5 +1,5 @@
-import { RepositorioUsuarios } from './RepositorioUsuarios.js';
-import { Usuario } from './Usuario.js';
+import { RepositorioUsuarios } from '../entidades/RepositorioUsuarios.js';
+import { Usuario } from '../entidades/Usuario.js';
 
 /** Mantém os usuários apenas em memória: a coleção é perdida ao reiniciar o processo. */
 export class RepositorioUsuariosRAM implements RepositorioUsuarios {

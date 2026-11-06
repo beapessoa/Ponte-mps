@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { RepositorioUsuariosRAM } from './RepositorioUsuariosRAM.js';
-import { Voluntario } from './Voluntario.js';
+import { Voluntario } from '../entidades/Voluntario.js';
 
 function criarVoluntario(nome: string, login: string): Voluntario {
   return new Voluntario(nome, login, 'Abcdef@1', ['primeiros socorros'], 'manhãs', 'João Pessoa/PB');

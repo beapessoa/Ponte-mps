@@ -6,15 +6,17 @@
 
 ```text
 src/
-├── entidades/          ← modelos de domínio e persistência (RAM e arquivo binário)
+├── entidades/          ← domínio: modelos, regras e as PORTAS de persistência (interfaces)
 │   ├── erros/           ← ErroDeValidacao, ErroDePersistencia e subclasses
 │   └── validacao/        ← ValidadorCredenciais (login, senha)
-└── controle/            ← orquestram casos de uso, chamando as entidades
+├── controle/            ← orquestram casos de uso, chamando as entidades
+├── infra/              ← adaptadores das portas: persistência em RAM e arquivo binário
+└── fronteira/          ← interface com o usuário: hoje uma CLI (`cli.ts`), que só usa a fachada
 ```
 
-A camada `fronteira` (telas/API) será adicionada quando a stack de interface for definida (ver [`01-visao.md`](01-visao.md) §2.5).
+A CLI é o ponto de entrada (`npm start`). Ela escolhe o mecanismo de persistência no início da execução e cria a fachada com `FacadeSingletonController.inicializar(tipo)`. As telas web ([TL01–TL03](06-interface/README.md)) vão entrar na mesma camada quando a stack de interface for definida (ver [`01-visao.md`](01-visao.md) §2.5).
 
-**Regra de dependência:** `controle` depende de `entidades`; `entidades` não depende de `controle`.
+**Regra de dependência:** `fronteira` depende só de `controle`, por meio da fachada. `controle` e `infra` dependem de `entidades`, e `entidades` não depende de ninguém. Os adaptadores de `infra` implementam as interfaces (portas) definidas no domínio — inversão de dependência (ver [ADR-0001](07-arquitetura/adr/0001-persistencia-substituivel.md)).
 
 ## 2. Diagrama de classes de projeto
 
@@ -113,15 +115,24 @@ classDiagram
     ControladorCadastro ..> RepositorioUsuarios
     ControladorListagem ..> RepositorioUsuarios : consulta
     ControladorVagas ..> RepositorioVagas
+    ControladorVagas ..> RepositorioUsuarios : confirma que ongId é uma Ong
 
     class FacadeSingletonController {
         <<controle>>
-        +obterInstancia() FacadeSingletonController
+        -instancia: FacadeSingletonController$
+        +inicializar(tipoPersistencia)$ FacadeSingletonController
+        +obterInstancia()$ FacadeSingletonController
         +contarEntidadesCadastradas() number
     }
     FacadeSingletonController ..> ControladorCadastro
     FacadeSingletonController ..> ControladorListagem
     FacadeSingletonController ..> ControladorVagas
+
+    class Cli {
+        <<fronteira>>
+        +main()
+    }
+    Cli ..> FacadeSingletonController : único ponto de acesso
 
     class ErroDeValidacao {
         <<erro>>
@@ -150,7 +161,7 @@ Preencha uma linha por padrão aplicado. Cada padrão relevante também tem um A
 | Padrão | Sprint | Classes participantes (papel no padrão) | Problema que resolve no projeto | ADR |
 |---|---|---|---|---|
 | Factory Method | S2 | `criarRepositorioUsuarios` (fábrica) → `RepositorioUsuariosRAM` / `RepositorioUsuariosArquivo` | Escolher a implementação de persistência sem acoplar os controladores a uma classe concreta | [ADR-0001](07-arquitetura/adr/0001-persistencia-substituivel.md) |
-| Singleton | S3 | `FacadeSingletonController` (`obterInstancia()`, `reiniciar()`) | Garantir uma única instância compartilhada dos controladores, evitando recriar os repositórios em cada ponto de uso | [ADR-0002](07-arquitetura/adr/0002-facade-singleton-controller.md) |
+| Singleton | S3 | `FacadeSingletonController` (`inicializar(tipo)`, `obterInstancia()`, `reiniciar()`) | Garantir uma única instância compartilhada dos controladores, evitando recriar os repositórios em cada ponto de uso | [ADR-0002](07-arquitetura/adr/0002-facade-singleton-controller.md) |
 | Facade | S3 | `FacadeSingletonController` unificando `ControladorCadastro`, `ControladorListagem` e `ControladorVagas` | Expor uma única API simples para cadastro/listagem/CRUD de usuários e vagas, com `contarEntidadesCadastradas()` agregando os dois | [ADR-0002](07-arquitetura/adr/0002-facade-singleton-controller.md) |
 | Repository | S4 | | | |
 | Adapter | S4 | | | |

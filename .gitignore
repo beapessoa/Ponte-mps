@@ -5,3 +5,6 @@ coverage/
 
 # Fonte LaTeX do documento de requisitos: versionamos apenas o PDF gerado.
 docs/documento-requisitos/src/
+
+# Arquivo gerado pela CLI no modo de persistência em arquivo
+usuarios.bin
