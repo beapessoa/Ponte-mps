@@ -25,7 +25,7 @@ export class FacadeSingletonController {
   private constructor(repositorioUsuarios: RepositorioUsuarios, repositorioVagas: RepositorioVagas) {
     this.controladorCadastro = new ControladorCadastro(repositorioUsuarios);
     this.controladorListagem = new ControladorListagem(repositorioUsuarios);
-    this.controladorVagas = new ControladorVagas(repositorioVagas);
+    this.controladorVagas = new ControladorVagas(repositorioVagas, repositorioUsuarios);
   }
 
   /** Retorna a única instância da fachada, criando-a com as dependências padrão na primeira chamada. */
