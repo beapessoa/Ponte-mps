@@ -7,7 +7,7 @@ Permite que a ONG atualize os dados de uma vaga já publicada (data, local, quan
 | **Ator** | ONG (Coordenadora) |
 | **Prioridade** | Importante |
 | **Requisitos** | RF11 |
-| **Interfaces** | — (pendente, UI ainda não definida) |
+| **Interfaces** | [TL03 — Minhas vagas](../06-interface/README.md#tl03--minhas-vagas), [TL02 — Publicar vaga](../06-interface/README.md#tl02--publicar-vaga) (modo edição) |
 | **Status** | Implementado na Sprint 3 — `ControladorVagas.atualizarVaga()` |
 
 **Entradas e pré-condições**
@@ -18,14 +18,15 @@ Permite que a ONG atualize os dados de uma vaga já publicada (data, local, quan
 
 ## Fluxo principal
 
-1. A coordenadora acessa a vaga já publicada.
-2. A coordenadora altera um ou mais campos (data, local, quantidade de vagas, habilidades exigidas).
-3. O sistema valida os campos obrigatórios (RN03).
-4. O sistema atualiza a vaga e exibe mensagem de sucesso.
+1. A coordenadora abre "Minhas vagas" (TL03) e escolhe **Editar** na vaga desejada.
+2. O sistema abre o formulário TL02 já preenchido com os dados atuais.
+3. A coordenadora altera um ou mais campos (data, local, quantidade de vagas, habilidades exigidas).
+4. O sistema valida os campos obrigatórios (RN03).
+5. O sistema atualiza a vaga e exibe mensagem de sucesso.
 
 ## Fluxos secundários
 
-**FE1 — Campos obrigatórios ausentes ou inválidos (passo 3)**
+**FE1 — Campos obrigatórios ausentes ou inválidos (passo 4)**
 1. O sistema exibe mensagem de erro e mantém a vaga com os dados anteriores.
 
 **FE2 — Vaga inexistente**
