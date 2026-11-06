@@ -1,6 +1,8 @@
 import { Ong } from '../entidades/Ong.js';
 import { RepositorioUsuarios } from '../entidades/RepositorioUsuarios.js';
 import { Voluntario } from '../entidades/Voluntario.js';
+import { CamposObrigatoriosError } from '../entidades/erros/ErroDeValidacao.js';
+import { EntidadeNaoEncontradaError } from '../entidades/erros/EntidadeNaoEncontradaError.js';
 
 export class ControladorCadastro {
   constructor(private readonly repositorio: RepositorioUsuarios) {}
@@ -13,7 +15,7 @@ export class ControladorCadastro {
     descricao: string,
   ): Ong {
     if (!nome.trim() || !areaAtuacao.trim() || !descricao.trim()) {
-      throw new Error('Nome, área de atuação e descrição são obrigatórios para cadastrar uma ONG.');
+      throw new CamposObrigatoriosError('Nome, área de atuação e descrição são obrigatórios para cadastrar uma ONG.');
     }
 
     const ong = new Ong(nome, login, senha, areaAtuacao, descricao);
@@ -30,7 +32,7 @@ export class ControladorCadastro {
     localizacao: string,
   ): Voluntario {
     if (!nome.trim() || habilidades.length === 0 || !disponibilidade.trim() || !localizacao.trim()) {
-      throw new Error(
+      throw new CamposObrigatoriosError(
         'Nome, habilidades, disponibilidade e localização são obrigatórios para cadastrar um voluntário.',
       );
     }
@@ -50,10 +52,10 @@ export class ControladorCadastro {
   ): Ong {
     const existente = this.repositorio.buscarPorId(id);
     if (!existente || !(existente instanceof Ong)) {
-      throw new Error(`ONG ${id} não encontrada.`);
+      throw new EntidadeNaoEncontradaError(`ONG ${id} não encontrada.`);
     }
     if (!nome || !areaAtuacao || !descricao) {
-      throw new Error('Nome, área de atuação e descrição são obrigatórios para atualizar uma ONG.');
+      throw new CamposObrigatoriosError('Nome, área de atuação e descrição são obrigatórios para atualizar uma ONG.');
     }
 
     const ong = new Ong(nome, login, senha, areaAtuacao, descricao);
@@ -73,10 +75,10 @@ export class ControladorCadastro {
   ): Voluntario {
     const existente = this.repositorio.buscarPorId(id);
     if (!existente || !(existente instanceof Voluntario)) {
-      throw new Error(`Voluntário ${id} não encontrado.`);
+      throw new EntidadeNaoEncontradaError(`Voluntário ${id} não encontrado.`);
     }
     if (!nome || habilidades.length === 0 || !disponibilidade || !localizacao) {
-      throw new Error(
+      throw new CamposObrigatoriosError(
         'Nome, habilidades, disponibilidade e localização são obrigatórios para atualizar um voluntário.',
       );
     }

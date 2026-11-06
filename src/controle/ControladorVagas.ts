@@ -2,12 +2,14 @@ import { Ong } from '../entidades/Ong.js';
 import { RepositorioUsuarios } from '../entidades/RepositorioUsuarios.js';
 import { RepositorioVagas } from '../entidades/RepositorioVagas.js';
 import { Vaga } from '../entidades/Vaga.js';
+import { CamposObrigatoriosError } from '../entidades/erros/ErroDeValidacao.js';
+import { EntidadeNaoEncontradaError } from '../entidades/erros/EntidadeNaoEncontradaError.js';
 
 type DadosVaga = Pick<Vaga, 'data' | 'local' | 'quantidadeVagas' | 'habilidadesExigidas'>;
 
 function validarCampos({ data, local, quantidadeVagas, habilidadesExigidas }: DadosVaga): void {
   if (!data.trim() || !local.trim() || quantidadeVagas <= 0 || habilidadesExigidas.length === 0) {
-    throw new Error(
+    throw new CamposObrigatoriosError(
       'Data, local, quantidade de vagas e habilidades exigidas são obrigatórios para publicar uma vaga.',
     );
   }
@@ -27,7 +29,7 @@ export class ControladorVagas {
     habilidadesExigidas: string[],
   ): Vaga {
     if (!(this.repositorioUsuarios.buscarPorId(ongId) instanceof Ong)) {
-      throw new Error(`ONG ${ongId} não encontrada: só uma ONG cadastrada pode publicar vagas.`);
+      throw new EntidadeNaoEncontradaError(`ONG ${ongId} não encontrada: só uma ONG cadastrada pode publicar vagas.`);
     }
     validarCampos({ data, local, quantidadeVagas, habilidadesExigidas });
     const vaga = new Vaga(ongId, data, local, quantidadeVagas, habilidadesExigidas);
@@ -45,7 +47,7 @@ export class ControladorVagas {
   atualizarVaga(id: number, dados: Partial<DadosVaga>): Vaga {
     const vaga = this.repositorio.buscarPorId(id);
     if (!vaga) {
-      throw new Error(`Vaga ${id} não encontrada.`);
+      throw new EntidadeNaoEncontradaError(`Vaga ${id} não encontrada.`);
     }
 
     const atualizada = { ...vaga, ...dados };

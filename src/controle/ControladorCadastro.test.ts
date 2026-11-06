@@ -1,7 +1,8 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { LoginInvalidoError, SenhaInvalidaError } from '../entidades/erros/ErroDeValidacao.js';
+import { CamposObrigatoriosError, LoginInvalidoError, SenhaInvalidaError } from '../entidades/erros/ErroDeValidacao.js';
 import { RepositorioUsuariosRAM } from '../infra/RepositorioUsuariosRAM.js';
 import { ControladorCadastro } from './ControladorCadastro.js';
+import { EntidadeNaoEncontradaError } from '../entidades/erros/EntidadeNaoEncontradaError.js';
 
 const SENHA_VALIDA = 'Abcdef@1';
 
@@ -30,14 +31,14 @@ describe('ControladorCadastro', () => {
   it('deve_lancar_erro_ao_cadastrar_ong_sem_area_de_atuacao', () => {
     expect(() =>
       controlador.cadastrarONG('Amigos do Bairro', 'amigos', SENHA_VALIDA, '', 'Ações de saúde.'),
-    ).toThrow();
+    ).toThrow(CamposObrigatoriosError);
     expect(repositorio.listarTodos()).toHaveLength(0);
   });
 
   it('deve_lancar_erro_ao_cadastrar_ong_com_descricao_contendo_apenas_espacos', () => {
     expect(() =>
       controlador.cadastrarONG('Amigos do Bairro', 'amigos', SENHA_VALIDA, 'Saúde', '   '),
-    ).toThrow();
+    ).toThrow(CamposObrigatoriosError);
     expect(repositorio.listarTodos()).toHaveLength(0);
   });
 
@@ -72,14 +73,14 @@ describe('ControladorCadastro', () => {
   it('deve_lancar_erro_ao_cadastrar_voluntario_sem_habilidades', () => {
     expect(() =>
       controlador.cadastrarVoluntario('Rafael', 'rafael', SENHA_VALIDA, [], 'manhãs', 'João Pessoa/PB'),
-    ).toThrow();
+    ).toThrow(CamposObrigatoriosError);
     expect(repositorio.listarTodos()).toHaveLength(0);
   });
 
   it('deve_lancar_erro_ao_cadastrar_voluntario_com_localizacao_contendo_apenas_espacos', () => {
     expect(() =>
       controlador.cadastrarVoluntario('Rafael', 'rafael', SENHA_VALIDA, ['enfermagem'], 'manhãs', '   '),
-    ).toThrow();
+    ).toThrow(CamposObrigatoriosError);
     expect(repositorio.listarTodos()).toHaveLength(0);
   });
 
@@ -109,7 +110,7 @@ describe('ControladorCadastro', () => {
   it('deve_lancar_erro_ao_atualizar_ong_inexistente', () => {
     expect(() =>
       controlador.atualizarONG(999, 'Amigos do Bairro', 'amigos', SENHA_VALIDA, 'Saúde', 'Ações de saúde.'),
-    ).toThrow();
+    ).toThrow(EntidadeNaoEncontradaError);
   });
 
   it('deve_lancar_erro_ao_atualizar_ong_sem_area_de_atuacao', () => {
@@ -117,7 +118,7 @@ describe('ControladorCadastro', () => {
 
     expect(() =>
       controlador.atualizarONG(ong.id!, 'Amigos do Bairro', 'amigos', SENHA_VALIDA, '', 'Ações de saúde.'),
-    ).toThrow();
+    ).toThrow(CamposObrigatoriosError);
   });
 
   it('deve_atualizar_voluntario_existente', () => {
@@ -147,7 +148,7 @@ describe('ControladorCadastro', () => {
   it('deve_lancar_erro_ao_atualizar_voluntario_inexistente', () => {
     expect(() =>
       controlador.atualizarVoluntario(999, 'Rafael', 'rafael', SENHA_VALIDA, ['enfermagem'], 'manhãs', 'João Pessoa/PB'),
-    ).toThrow();
+    ).toThrow(EntidadeNaoEncontradaError);
   });
 
   it('deve_lancar_erro_ao_atualizar_voluntario_sem_habilidades', () => {
@@ -162,7 +163,7 @@ describe('ControladorCadastro', () => {
 
     expect(() =>
       controlador.atualizarVoluntario(voluntario.id!, 'Rafael', 'rafael', SENHA_VALIDA, [], 'manhãs', 'João Pessoa/PB'),
-    ).toThrow();
+    ).toThrow(CamposObrigatoriosError);
   });
 
   it('deve_remover_usuario_existente', () => {
@@ -174,6 +175,6 @@ describe('ControladorCadastro', () => {
   });
 
   it('deve_lancar_erro_ao_remover_usuario_inexistente', () => {
-    expect(() => controlador.removerUsuario(999)).toThrow();
+    expect(() => controlador.removerUsuario(999)).toThrow(EntidadeNaoEncontradaError);
   });
 });

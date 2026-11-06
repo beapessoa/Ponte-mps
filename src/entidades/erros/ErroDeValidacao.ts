@@ -16,3 +16,10 @@ export class SenhaInvalidaError extends ErroDeValidacao {
     super(message);
   }
 }
+
+/** Campo obrigatório ausente ou inválido ao cadastrar ou atualizar uma entidade (RN01, RN02, RN03). */
+export class CamposObrigatoriosError extends ErroDeValidacao {
+  constructor(message: string) {
+    super(message);
+  }
+}
