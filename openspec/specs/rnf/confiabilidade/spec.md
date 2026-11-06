@@ -20,7 +20,7 @@ O sistema DEVE garantir a consistência das regras de negócio do fluxo de parti
 O sistema DEVE capturar falhas de leitura ou escrita do mecanismo de persistência e convertê-las numa exceção de negócio (`ErroDePersistencia` ou subclasse), nunca propagando a exceção nativa de E/S ao chamador.
 
 **Prioridade:** Essencial
-**Status:** Implementado na Sprint 2 — ver `RepositorioUsuariosArquivo` em [`docs/specs/tratamento-erros-persistencia.md`](../../../../docs/specs/tratamento-erros-persistencia.md)
+**Status:** Implementado na Sprint 2 — ver [`src/infra/RepositorioUsuariosArquivo.ts`](../../../../src/infra/RepositorioUsuariosArquivo.ts)
 
 #### Scenario: Falha ao gravar o arquivo
 - **GIVEN** o arquivo de persistência está inacessível (por exemplo, sem permissão de escrita)

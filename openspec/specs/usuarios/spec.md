@@ -11,7 +11,7 @@ O sistema DEVE permitir que a coordenadora de uma ONG crie o perfil da organiza�
 **Regra de negócio:** uma ONG só é cadastrada com nome, área de atuação e descrição preenchidos (RN01).
 **Prioridade:** Essencial
 **Casos de uso:** UC01
-**Status:** Implementado na Sprint 1 — ver [`docs/specs/gerenciamento-usuarios.md`](../../../docs/specs/gerenciamento-usuarios.md)
+**Status:** Implementado na Sprint 1 — `ControladorCadastro` ([`src/controle/ControladorCadastro.ts`](../../../src/controle/ControladorCadastro.ts))
 
 #### Scenario: Cadastro válido
 - **GIVEN** a coordenadora preenche nome, área de atuação e descrição
@@ -29,7 +29,7 @@ O sistema DEVE permitir que o voluntário crie seu perfil preenchendo habilidade
 **Regra de negócio:** um voluntário só é cadastrado com nome, habilidades, disponibilidade e localização preenchidos (RN02).
 **Prioridade:** Essencial
 **Casos de uso:** UC02
-**Status:** Implementado na Sprint 1 — ver [`docs/specs/gerenciamento-usuarios.md`](../../../docs/specs/gerenciamento-usuarios.md)
+**Status:** Implementado na Sprint 1 — `ControladorCadastro` ([`src/controle/ControladorCadastro.ts`](../../../src/controle/ControladorCadastro.ts))
 
 #### Scenario: Cadastro válido
 - **GIVEN** o voluntário preenche nome, habilidades, disponibilidade e localização
@@ -90,7 +90,7 @@ O sistema DEVE permitir remover um usuário (ONG ou voluntário) cadastrado.
 O sistema DEVE validar login (não vazio, no máximo 12 caracteres, sem números) e senha (política padrão do AWS IAM: 8–128 caracteres, ao menos 3 dos 4 tipos de caractere, diferente do login) no cadastro de qualquer usuário, lançando `LoginInvalidoError` ou `SenhaInvalidaError` em caso de violação.
 
 **Prioridade:** Essencial
-**Status:** Implementado no Laboratório 2 — ver [`docs/specs/tratamento-erros-persistencia.md`](../../../docs/specs/tratamento-erros-persistencia.md)
+**Status:** Implementado no Laboratório 2 — [`src/entidades/validacao/ValidadorCredenciais.ts`](../../../src/entidades/validacao/ValidadorCredenciais.ts)
 
 #### Scenario: Login inválido
 - **GIVEN** um usuário informa o login "maria2024" (contém números)

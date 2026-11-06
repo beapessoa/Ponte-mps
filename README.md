@@ -30,7 +30,6 @@ A documentação de requisitos está migrando para o formato versionado adotado 
 - [`docs/02-glossario.md`](docs/02-glossario.md) — glossário
 - [`docs/03-elicitacao.md`](docs/03-elicitacao.md) — técnicas de elicitação
 - [`openspec/specs/`](openspec/specs/) — requisitos funcionais e não funcionais (fonte da verdade)
-- [`docs/specs/`](docs/specs/README.md) — casos de uso, diagramas de classes de análise e módulo de gerenciamento de usuários (ainda no formato anterior)
 
 Leia antes de implementar qualquer funcionalidade.
 

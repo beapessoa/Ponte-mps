@@ -8,7 +8,7 @@ Permite que uma organização crie seu perfil na plataforma, informando dados in
 | **Prioridade** | Essencial |
 | **Requisitos** | RF01, NF-USA-01, NF-SEG-01 |
 | **Interfaces** | [TL01 — Cadastro de ONG](../06-interface/README.md#tl01--cadastro-de-ong) |
-| **Status** | Implementado na Sprint 1 — ver [`docs/specs/gerenciamento-usuarios.md`](../specs/gerenciamento-usuarios.md) |
+| **Status** | Implementado na Sprint 1 — ver [`openspec/specs/usuarios`](../../openspec/specs/usuarios/spec.md) |
 
 **Entradas e pré-condições**
 - A organização ainda não possui cadastro na plataforma.

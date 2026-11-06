@@ -22,4 +22,4 @@ As classes de controle dependem apenas da interface `RepositorioUsuarios` (`adic
 ## Consequências
 
 - Positivas: testes de `ControladorCadastro`/`ControladorListagem` rodam inteiramente em memória, sem E/S; trocar o mecanismo de persistência não altera os controladores nem a camada de entidade além da nova implementação; prepara o terreno para um banco de dados real em iteração futura.
-- Negativas: uma interface e uma fábrica a mais para manter; a serialização binária (`node:v8`) não preserva o protótipo das classes, exigindo reconstrução manual de `Ong`/`Voluntario` a cada leitura (ver [`docs/specs/tratamento-erros-persistencia.md`](../../specs/tratamento-erros-persistencia.md)).
+- Negativas: uma interface e uma fábrica a mais para manter; a serialização binária (`node:v8`) não preserva o protótipo das classes, exigindo reconstrução manual de `Ong`/`Voluntario` a cada leitura (ver `reidratarUsuario` em [`src/infra/RepositorioUsuariosArquivo.ts`](../../../src/infra/RepositorioUsuariosArquivo.ts)).

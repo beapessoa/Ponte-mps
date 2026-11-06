@@ -10,7 +10,7 @@ O sistema DEVE ser organizado em camadas (fronteira, controle e entidade), de mo
 
 **Prioridade:** Desejável
 **Casos de uso:** requisito do sistema como um todo
-**Status:** Implementado parcialmente — ver [`docs/specs/tratamento-erros-persistencia.md`](../../../../docs/specs/tratamento-erros-persistencia.md) (dois mecanismos de persistência já implementados: RAM e arquivo binário)
+**Status:** Implementado parcialmente — ver [ADR-0001](../../../../docs/07-arquitetura/adr/0001-persistencia-substituivel.md) (dois mecanismos de persistência já implementados: RAM e arquivo binário)
 
 #### Scenario: Troca de mecanismo sem alterar os controladores
 - **GIVEN** o sistema está configurado para persistência em memória (RAM)
