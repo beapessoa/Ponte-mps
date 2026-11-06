@@ -55,4 +55,4 @@ npm run typecheck
 npm start       # compila e abre a CLI; pergunta se os usuários ficam em RAM ou em arquivo binário
 ```
 
-No modo arquivo, os usuários são gravados em `usuarios.bin` (altere com `PONTE_ARQUIVO_USUARIOS=<caminho>`).
+No modo arquivo, os usuários são gravados em `usuarios.bin` e as vagas em `vagas.bin` (altere com `PONTE_ARQUIVO_USUARIOS=<caminho>` e `PONTE_ARQUIVO_VAGAS=<caminho>`).

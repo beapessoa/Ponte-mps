@@ -12,6 +12,8 @@ Na Sprint 1, os usuários (ONGs e voluntários) ficam apenas em memória (`Repos
 
 As classes de controle dependem apenas da interface `RepositorioUsuarios` (`adicionar(usuario)`, `listarTodos()`), nunca de uma implementação concreta. Existem duas implementações: `RepositorioUsuariosRAM` (memória, não sobrevive a reinício) e `RepositorioUsuariosArquivo` (arquivo binário, serializado com `node:v8`, sobrevive a reinício). A escolha é feita uma única vez, na inicialização, pela fábrica `criarRepositorioUsuarios(tipo, caminhoArquivo?)`, configurável por variáveis de ambiente (`PONTE_PERSISTENCIA`, `PONTE_ARQUIVO_USUARIOS`). Falhas de E/S na implementação em arquivo são convertidas em `ErroDeArquivo` (subclasse de `ErroDePersistencia`), nunca propagadas como exceção nativa do sistema de arquivos.
 
+**Atualização (06/11/2026):** a mesma decisão passou a valer para `Vaga`. As portas `RepositorioUsuarios` e `RepositorioVagas` têm, cada uma, implementação em RAM e em arquivo binário. A fábrica (`infra/fabricaRepositorios.ts`) ganhou `criarRepositorioVagas(tipo, caminhoArquivo?)`, configurável por `PONTE_ARQUIVO_VAGAS`, e a leitura e gravação do arquivo ficam em `infra/arquivoBinario.ts`, compartilhado pelos dois adaptadores.
+
 ## Alternativas consideradas
 
 | Alternativa | Por que não |

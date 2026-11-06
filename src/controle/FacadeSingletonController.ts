@@ -1,8 +1,7 @@
-import { criarRepositorioUsuarios, TipoPersistencia } from '../infra/fabricaRepositorioUsuarios.js';
+import { criarRepositorioUsuarios, criarRepositorioVagas, TipoPersistencia } from '../infra/fabricaRepositorios.js';
 import { Ong } from '../entidades/Ong.js';
 import { RepositorioUsuarios } from '../entidades/RepositorioUsuarios.js';
 import { RepositorioVagas } from '../entidades/RepositorioVagas.js';
-import { RepositorioVagasRAM } from '../infra/RepositorioVagasRAM.js';
 import { Usuario } from '../entidades/Usuario.js';
 import { Vaga } from '../entidades/Vaga.js';
 import { Voluntario } from '../entidades/Voluntario.js';
@@ -29,7 +28,7 @@ export class FacadeSingletonController {
   }
 
   /**
-   * Cria a única instância escolhendo o mecanismo de persistência dos usuários.
+   * Cria a única instância escolhendo o mecanismo de persistência de usuários e vagas.
    * Deve ser chamado uma vez, no início da execução, antes de `obterInstancia()`.
    */
   static inicializar(tipoPersistencia: TipoPersistencia): FacadeSingletonController {
@@ -38,7 +37,7 @@ export class FacadeSingletonController {
     }
     FacadeSingletonController.instancia = new FacadeSingletonController(
       criarRepositorioUsuarios(tipoPersistencia),
-      new RepositorioVagasRAM(),
+      criarRepositorioVagas(tipoPersistencia),
     );
     return FacadeSingletonController.instancia;
   }
@@ -48,7 +47,7 @@ export class FacadeSingletonController {
     if (!FacadeSingletonController.instancia) {
       FacadeSingletonController.instancia = new FacadeSingletonController(
         criarRepositorioUsuarios(),
-        new RepositorioVagasRAM(),
+        criarRepositorioVagas(),
       );
     }
     return FacadeSingletonController.instancia;

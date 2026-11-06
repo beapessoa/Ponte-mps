@@ -1,7 +1,7 @@
 import { createInterface } from 'node:readline';
 import { stdin, stdout } from 'node:process';
 import { FacadeSingletonController } from '../controle/FacadeSingletonController.js';
-import { TipoPersistencia } from '../infra/fabricaRepositorioUsuarios.js';
+import { TipoPersistencia } from '../infra/fabricaRepositorios.js';
 
 /**
  * Ponto de entrada em linha de comando (camada de fronteira). Escolhe o
@@ -35,7 +35,7 @@ const perguntarLista = async (texto: string) =>
     .filter(Boolean);
 
 async function escolherPersistencia(): Promise<TipoPersistencia> {
-  const opcao = await perguntar('Persistência dos usuários — [1] memória (RAM) [2] arquivo binário');
+  const opcao = await perguntar('Persistência dos dados — [1] memória (RAM) [2] arquivo binário');
   return opcao === '2' ? 'arquivo' : 'ram';
 }
 
