@@ -63,5 +63,3 @@ As fronteiras são as telas [TL01–TL03](06-interface/README.md), que ainda nã
 | UC03 — Publicar Vaga | ControladorVagas | Vaga, ONG, RepositorioVagas, RepositorioUsuarios | TelaPublicarVaga (TL02) |
 | UC09 — Atualizar Vaga | ControladorVagas | Vaga, RepositorioVagas | TelaMinhasVagas (TL03) → TelaPublicarVaga (TL02) |
 | UC10 — Remover Vaga | ControladorVagas | Vaga, RepositorioVagas | TelaMinhasVagas (TL03) |
-
-Imagem original da Sprint 1 (anexo, só gerenciamento de usuários): [`docs/img/diagrama-classes-analise-gerenciamento-usuarios.png`](img/diagrama-classes-analise-gerenciamento-usuarios.png).
