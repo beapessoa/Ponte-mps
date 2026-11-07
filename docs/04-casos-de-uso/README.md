@@ -70,5 +70,3 @@ Os três casos de uso mais relevantes, descritos em detalhe (fluxo principal, fl
 | UC10 Remover Vaga | ONG | RF12 | Implementado (Sprint 3) | [UC10](UC10-remover-vaga.md) |
 | UC11 Atualizar Usuário | ONG, Voluntário | RF13 | Implementado (Sprint 3) | [UC11](UC11-atualizar-usuario.md) |
 | UC12 Remover Usuário | ONG, Voluntário | RF14 | Implementado (Sprint 3) | [UC12](UC12-remover-usuario.md) |
-
-Imagem original (anexo, só UC01/UC02/UC08): [`docs/img/diagrama-casos-de-uso-gerenciamento-usuarios.png`](../img/diagrama-casos-de-uso-gerenciamento-usuarios.png).
