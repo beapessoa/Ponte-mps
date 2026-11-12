@@ -124,4 +124,14 @@ describe('FacadeSingletonController', () => {
 
     expect(facade.contarEntidadesCadastradas()).toBe(3);
   });
+
+  it('deve_entrar_e_gerar_relatorio_de_acessos_atraves_da_fachada', () => {
+    const facade = FacadeSingletonController.obterInstancia();
+    facade.cadastrarVoluntario('Rafael', 'rafael', SENHA_VALIDA, ['enfermagem'], 'manhãs', 'João Pessoa/PB');
+
+    facade.entrar('rafael', SENHA_VALIDA);
+    facade.entrar('rafael', SENHA_VALIDA);
+
+    expect(facade.gerarRelatorioAcessos('csv')).toMatch(/^Rafael,rafael,Voluntário,2,/m);
+  });
 });
