@@ -1,11 +1,15 @@
 import { Ong } from '../entidades/Ong.js';
+import { RepositorioAcessos } from '../entidades/RepositorioAcessos.js';
 import { RepositorioUsuarios } from '../entidades/RepositorioUsuarios.js';
 import { Voluntario } from '../entidades/Voluntario.js';
 import { CamposObrigatoriosError } from '../entidades/erros/ErroDeValidacao.js';
 import { EntidadeNaoEncontradaError } from '../entidades/erros/EntidadeNaoEncontradaError.js';
 
 export class ControladorCadastro {
-  constructor(private readonly repositorio: RepositorioUsuarios) {}
+  constructor(
+    private readonly repositorio: RepositorioUsuarios,
+    private readonly repositorioAcessos?: RepositorioAcessos,
+  ) {}
 
   cadastrarONG(
     nome: string,
@@ -89,7 +93,9 @@ export class ControladorCadastro {
     return voluntario;
   }
 
+  /** Remove o usuário e seu histórico de acessos, para que um id reaproveitado não herde acessos de outra pessoa. */
   removerUsuario(id: number): void {
     this.repositorio.remover(id);
+    this.repositorioAcessos?.removerPorUsuario(id);
   }
 }

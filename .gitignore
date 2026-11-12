@@ -9,3 +9,5 @@ docs/documento-requisitos/src/
 # Arquivo gerado pela CLI no modo de persistência em arquivo
 usuarios.bin
 vagas.bin
+acessos.bin
+relatorio-acessos.*

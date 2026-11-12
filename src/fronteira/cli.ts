@@ -1,3 +1,4 @@
+import { writeFileSync } from 'node:fs';
 import { createInterface } from 'node:readline';
 import { stdin, stdout } from 'node:process';
 import { FacadeSingletonController } from '../controle/FacadeSingletonController.js';
@@ -14,6 +15,7 @@ const MENU = `
 [3] Listar usuários         [7] Atualizar vaga
 [4] Remover usuário         [8] Remover vaga
 [9] Quantidade de entidades cadastradas
+[10] Entrar (login)         [11] Relatório de acessos
 [0] Sair`;
 
 const terminal = createInterface({ input: stdin });
@@ -99,6 +101,18 @@ async function executar(opcao: string, fachada: FacadeSingletonController): Prom
     case '9':
       console.log(`Entidades cadastradas: ${fachada.contarEntidadesCadastradas()}.`);
       return;
+    case '10': {
+      const usuario = fachada.entrar(await perguntar('Login'), await perguntar('Senha'));
+      console.log(`Bem-vindo(a), ${usuario.nome}. Acesso registrado.`);
+      return;
+    }
+    case '11': {
+      const formato = (await perguntar('Formato — [1] HTML [2] CSV')) === '2' ? 'csv' : 'html';
+      const arquivo = `relatorio-acessos.${formato}`;
+      writeFileSync(arquivo, fachada.gerarRelatorioAcessos(formato));
+      console.log(`Relatório salvo em ${arquivo}.`);
+      return;
+    }
     default:
       console.log('Opção inválida.');
   }
