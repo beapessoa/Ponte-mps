@@ -25,3 +25,5 @@ As classes de controle dependem apenas da interface `RepositorioUsuarios` (`adic
 
 - Positivas: testes de `ControladorCadastro`/`ControladorListagem` rodam inteiramente em memória, sem E/S; trocar o mecanismo de persistência não altera os controladores nem a camada de entidade além da nova implementação; prepara o terreno para um banco de dados real em iteração futura.
 - Negativas: uma interface e uma fábrica a mais para manter; a serialização binária (`node:v8`) não preserva o protótipo das classes, exigindo reconstrução manual de `Ong`/`Voluntario` a cada leitura (ver `reidratarUsuario` em [`src/infra/RepositorioUsuariosArquivo.ts`](../../../src/infra/RepositorioUsuariosArquivo.ts)).
+
+**Atualização (11/11/2026):** com a terceira entidade persistida (`Acesso`), as funções-fábrica foram substituídas por uma Abstract Factory que cria a família inteira de repositórios. Ver [ADR-0003](0003-repository-abstract-factory.md).
