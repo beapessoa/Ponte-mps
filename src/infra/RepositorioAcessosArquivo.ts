@@ -22,4 +22,9 @@ export class RepositorioAcessosArquivo implements RepositorioAcessos {
   listarTodos(): Acesso[] {
     return lerRegistros(this.caminhoArquivo, 'acessos', reidratarAcesso);
   }
+
+  removerPorUsuario(usuarioId: number): void {
+    const restantes = this.listarTodos().filter((acesso) => acesso.usuarioId !== usuarioId);
+    gravarRegistros(this.caminhoArquivo, 'acessos', restantes);
+  }
 }

@@ -19,11 +19,17 @@ const destinoPadrao = (): DestinationStream =>
 export class AdaptadorRegistradorPino implements Registrador {
   private readonly logger: Logger;
 
-  constructor(destino: DestinationStream = destinoPadrao()) {
+  constructor(private readonly destino: DestinationStream = destinoPadrao()) {
     this.logger = pino({ base: undefined }, destino);
   }
 
   registrar(nivel: NivelRegistro, mensagem: string, contexto: Record<string, unknown> = {}): void {
     this.logger[NIVEL_PINO[nivel]](contexto, mensagem);
+  }
+
+  fechar(): void {
+    // DestinationStream só garante `write`; destinos reais (pino.destination) também têm `end`,
+    // mas destinos de teste (ex.: um objeto só com `write`) não — por isso o acesso é opcional.
+    (this.destino as { end?: () => void }).end?.();
   }
 }

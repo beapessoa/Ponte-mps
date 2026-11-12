@@ -24,28 +24,29 @@ export class FacadeSingletonController {
   private readonly controladorVagas: ControladorVagas;
   private readonly controladorAcessos: ControladorAcessos;
 
-  private constructor(fabrica: FabricaRepositorios, registrador: Registrador) {
+  private constructor(
+    fabrica: FabricaRepositorios,
+    private readonly registrador: Registrador,
+  ) {
     const repositorioUsuarios = fabrica.criarRepositorioUsuarios();
-    this.controladorCadastro = new ControladorCadastro(repositorioUsuarios);
+    const repositorioAcessos = fabrica.criarRepositorioAcessos();
+    this.controladorCadastro = new ControladorCadastro(repositorioUsuarios, repositorioAcessos);
     this.controladorListagem = new ControladorListagem(repositorioUsuarios);
     this.controladorVagas = new ControladorVagas(fabrica.criarRepositorioVagas(), repositorioUsuarios);
-    this.controladorAcessos = new ControladorAcessos(repositorioUsuarios, fabrica.criarRepositorioAcessos(), registrador);
+    this.controladorAcessos = new ControladorAcessos(repositorioUsuarios, repositorioAcessos, registrador);
   }
 
   /**
    * Cria a única instância escolhendo o mecanismo de persistência de todas as entidades.
    * Deve ser chamado uma vez, no início da execução, antes de `obterInstancia()`.
    */
-  static inicializar(
-    tipoPersistencia: TipoPersistencia,
-    registrador: Registrador = new AdaptadorRegistradorPino(),
-  ): FacadeSingletonController {
+  static inicializar(tipoPersistencia: TipoPersistencia, registrador?: Registrador): FacadeSingletonController {
     if (FacadeSingletonController.instancia) {
       throw new Error('A fachada já foi inicializada.');
     }
     FacadeSingletonController.instancia = new FacadeSingletonController(
       criarFabricaRepositorios(tipoPersistencia),
-      registrador,
+      registrador ?? new AdaptadorRegistradorPino(),
     );
     return FacadeSingletonController.instancia;
   }
@@ -61,8 +62,9 @@ export class FacadeSingletonController {
     return FacadeSingletonController.instancia;
   }
 
-  /** Descarta a instância atual, forçando a próxima `obterInstancia()` a criar uma nova. Uso em testes. */
+  /** Fecha o registrador e descarta a instância atual, forçando a próxima `obterInstancia()` a criar uma nova. Uso em testes. */
   static reiniciar(): void {
+    FacadeSingletonController.instancia?.registrador.fechar();
     FacadeSingletonController.instancia = undefined;
   }
 

@@ -31,6 +31,24 @@ describe('RelatorioAcessosCSV', () => {
       'TOTAL,,,2,',
     ]);
   });
+
+  it('deve_neutralizar_nome_que_comeca_com_caractere_de_formula', () => {
+    const ong = new Ong('=HYPERLINK("http://evil","clique")', 'evil', SENHA, 'Saúde', 'Ações de saúde.');
+    ong.id = 1;
+
+    const linha = new RelatorioAcessosCSV().gerar([ong], [], GERADO_EM).split('\n')[1];
+
+    expect(linha.startsWith('"\'=HYPERLINK')).toBe(true);
+  });
+
+  it('deve_colocar_entre_aspas_um_campo_com_cr_solto', () => {
+    const ong = new Ong('Amigos\rdo Bairro', 'amigos', SENHA, 'Saúde', 'Ações de saúde.');
+    ong.id = 1;
+
+    const linha = new RelatorioAcessosCSV().gerar([ong], [], GERADO_EM).split('\n')[1];
+
+    expect(linha.startsWith('"Amigos\rdo Bairro"')).toBe(true);
+  });
 });
 
 describe('RelatorioAcessosHTML', () => {

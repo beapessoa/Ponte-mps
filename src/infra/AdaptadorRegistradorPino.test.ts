@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { AdaptadorRegistradorPino } from './AdaptadorRegistradorPino.js';
 
 function destinoEmMemoria() {
@@ -25,5 +25,19 @@ describe('AdaptadorRegistradorPino', () => {
     registrador.registrar('erro', 'c');
 
     expect(destino.linhas.map((linha) => linha.level)).toEqual([30, 40, 50]);
+  });
+
+  it('deve_fechar_o_destino_quando_ele_suporta_end', () => {
+    const destino = { ...destinoEmMemoria(), end: vi.fn() };
+
+    new AdaptadorRegistradorPino(destino).fechar();
+
+    expect(destino.end).toHaveBeenCalledOnce();
+  });
+
+  it('nao_deve_lancar_erro_ao_fechar_um_destino_sem_end', () => {
+    const destino = destinoEmMemoria();
+
+    expect(() => new AdaptadorRegistradorPino(destino).fechar()).not.toThrow();
   });
 });
