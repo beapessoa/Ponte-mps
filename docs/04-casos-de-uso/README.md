@@ -1,6 +1,6 @@
 # Casos de uso
 
-> Diagrama com **todos** os casos de uso do sistema e descrição detalhada de cada um. UC01, UC02, UC08 (Sprint 1/2, Gerenciamento de Usuários) e UC03, UC09–UC12 (Sprint 3, CRUD de Vaga e de Usuário) estão implementados — os demais são especificados para orientar o desenvolvimento das próximas sprints (ver [`docs/00-entregas.md`](../00-entregas.md)).
+> Diagrama com **todos** os casos de uso do sistema e descrição detalhada de cada um. UC01, UC02, UC08 (Sprint 1/2, Gerenciamento de Usuários) e UC03, UC09–UC12 (Sprint 3, CRUD de Vaga e de Usuário) e UC13–UC14 (Sprint 4, acessos) estão implementados — os demais são especificados para orientar o desenvolvimento das próximas sprints (ver [`docs/00-entregas.md`](../00-entregas.md)).
 
 ## Diagrama de casos de uso
 
@@ -8,6 +8,7 @@
 flowchart LR
     ONG(("ONG"))
     Voluntario(("Voluntário"))
+    Equipe(("Equipe Ponte"))
 
     subgraph Ponte["Ponte"]
         UC01(["UC01 Cadastrar ONG"])
@@ -22,6 +23,8 @@ flowchart LR
         UC10(["UC10 Remover Vaga"])
         UC11(["UC11 Atualizar Usuário"])
         UC12(["UC12 Remover Usuário"])
+        UC13(["UC13 Entrar no Sistema"])
+        UC14(["UC14 Gerar Relatório de Acessos"])
     end
 
     ONG --- UC01
@@ -40,6 +43,9 @@ flowchart LR
     Voluntario --- UC11
     ONG --- UC12
     Voluntario --- UC12
+    ONG --- UC13
+    Voluntario --- UC13
+    Equipe --- UC14
 ```
 
 ## Casos de uso detalhados (Entrega 2)
@@ -70,3 +76,5 @@ Os três casos de uso mais relevantes, descritos em detalhe (fluxo principal, fl
 | UC10 Remover Vaga | ONG | RF12 | Implementado (Sprint 3) | [UC10](UC10-remover-vaga.md) |
 | UC11 Atualizar Usuário | ONG, Voluntário | RF13 | Implementado (Sprint 3) | [UC11](UC11-atualizar-usuario.md) |
 | UC12 Remover Usuário | ONG, Voluntário | RF14 | Implementado (Sprint 3) | [UC12](UC12-remover-usuario.md) |
+| UC13 Entrar no Sistema | ONG, Voluntário | RF15 | Implementado (Sprint 4) | [UC13](UC13-entrar-no-sistema.md) |
+| UC14 Gerar Relatório de Acessos | Equipe Ponte | RF16 | Implementado (Sprint 4) | [UC14](UC14-gerar-relatorio-de-acessos.md) |
