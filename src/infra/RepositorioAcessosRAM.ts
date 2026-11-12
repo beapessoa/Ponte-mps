@@ -15,4 +15,12 @@ export class RepositorioAcessosRAM implements RepositorioAcessos {
   listarTodos(): Acesso[] {
     return [...this.acessos];
   }
+
+  removerPorUsuario(usuarioId: number): void {
+    for (let i = this.acessos.length - 1; i >= 0; i--) {
+      if (this.acessos[i].usuarioId === usuarioId) {
+        this.acessos.splice(i, 1);
+      }
+    }
+  }
 }

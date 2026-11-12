@@ -24,3 +24,5 @@ Toda entidade tem uma porta de **Repository** em `entidades` (`RepositorioUsuari
 
 - Positivas: impossível misturar mecanismos numa execução; acrescentar um banco de dados é criar uma terceira fábrica concreta, sem tocar nos controladores nem na fachada; os testes trocam a família inteira de uma vez.
 - Negativas: cada entidade nova exige um método a mais na interface e nas duas fábricas.
+
+**Atualização (12/11/2026):** `RepositorioAcessos` ganhou `removerPorUsuario(usuarioId)`, a única exceção ao "histórico só cresce" citado acima. Sem ela, remover um usuário e cadastrar outro que reaproveite o mesmo id (persistência em arquivo, onde o id é `max(existentes) + 1`) fazia o relatório de acessos (RF16) atribuir ao novo usuário o histórico de acesso de quem tinha o id antes — `ControladorCadastro.removerUsuario` agora chama `removerPorUsuario` ao remover o usuário, antes que o id seja reaproveitado.

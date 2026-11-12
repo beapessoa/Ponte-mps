@@ -28,6 +28,17 @@ describe.each([
     expect(repositorio.adicionar(new Acesso(1, new Date('2026-11-11T11:00:00Z'))).id).toBe(2);
     expect(repositorio.listarTodos()).toHaveLength(2);
   });
+
+  it('deve_remover_apenas_os_acessos_do_usuario_informado', () => {
+    const repositorio = criar();
+    repositorio.adicionar(new Acesso(1, new Date('2026-11-11T10:00:00Z')));
+    repositorio.adicionar(new Acesso(2, new Date('2026-11-11T11:00:00Z')));
+    repositorio.adicionar(new Acesso(1, new Date('2026-11-11T12:00:00Z')));
+
+    repositorio.removerPorUsuario(1);
+
+    expect(repositorio.listarTodos().map((acesso) => acesso.usuarioId)).toEqual([2]);
+  });
 });
 
 describe('RepositorioAcessosArquivo (persistência)', () => {

@@ -14,6 +14,7 @@ class RegistradorEmMemoria implements Registrador {
   registrar(nivel: NivelRegistro, mensagem: string, contexto?: Record<string, unknown>): void {
     this.registros.push({ nivel, mensagem, contexto });
   }
+  fechar(): void {}
 }
 
 describe('ControladorAcessos', () => {
@@ -21,10 +22,14 @@ describe('ControladorAcessos', () => {
   let registrador: RegistradorEmMemoria;
   let controlador: ControladorAcessos;
 
+  let usuarios: RepositorioUsuariosRAM;
+  let cadastro: ControladorCadastro;
+
   beforeEach(() => {
-    const usuarios = new RepositorioUsuariosRAM();
-    new ControladorCadastro(usuarios).cadastrarVoluntario('Rafael', 'rafael', SENHA, ['enfermagem'], 'manhãs', 'João Pessoa/PB');
+    usuarios = new RepositorioUsuariosRAM();
     acessos = new RepositorioAcessosRAM();
+    cadastro = new ControladorCadastro(usuarios, acessos);
+    cadastro.cadastrarVoluntario('Rafael', 'rafael', SENHA, ['enfermagem'], 'manhãs', 'João Pessoa/PB');
     registrador = new RegistradorEmMemoria();
     controlador = new ControladorAcessos(usuarios, acessos, registrador, () => AGORA);
   });
@@ -61,5 +66,14 @@ describe('ControladorAcessos', () => {
 
   it('deve_recusar_formato_de_relatorio_desconhecido', () => {
     expect(() => controlador.gerarRelatorio('pdf' as never)).toThrow(/desconhecido/);
+  });
+
+  it('deve_remover_o_historico_de_acessos_ao_remover_o_usuario', () => {
+    // Sem isso, um id de usuário reaproveitado (persistência em arquivo) herdaria
+    // no relatório o histórico de acesso de quem tinha o id antes.
+    const rafael = controlador.entrar('rafael', SENHA);
+    cadastro.removerUsuario(rafael.id!);
+
+    expect(acessos.listarTodos()).toEqual([]);
   });
 });
