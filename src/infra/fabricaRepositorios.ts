@@ -1,11 +1,56 @@
-import { RepositorioUsuarios } from '../entidades/RepositorioUsuarios.js';
-import { RepositorioVagas } from '../entidades/RepositorioVagas.js';
+import { FabricaRepositorios } from '../entidades/FabricaRepositorios.js';
+import { RepositorioAcessosArquivo } from './RepositorioAcessosArquivo.js';
+import { RepositorioAcessosRAM } from './RepositorioAcessosRAM.js';
 import { RepositorioUsuariosArquivo } from './RepositorioUsuariosArquivo.js';
 import { RepositorioUsuariosRAM } from './RepositorioUsuariosRAM.js';
 import { RepositorioVagasArquivo } from './RepositorioVagasArquivo.js';
 import { RepositorioVagasRAM } from './RepositorioVagasRAM.js';
 
 export type TipoPersistencia = 'ram' | 'arquivo';
+
+/** Fábrica concreta da família em memória (RAM). */
+export class FabricaRepositoriosRAM implements FabricaRepositorios {
+  criarRepositorioUsuarios() {
+    return new RepositorioUsuariosRAM();
+  }
+
+  criarRepositorioVagas() {
+    return new RepositorioVagasRAM();
+  }
+
+  criarRepositorioAcessos() {
+    return new RepositorioAcessosRAM();
+  }
+}
+
+export interface CaminhosArquivos {
+  usuarios: string;
+  vagas: string;
+  acessos: string;
+}
+
+const caminhosPadrao = (): CaminhosArquivos => ({
+  usuarios: process.env.PONTE_ARQUIVO_USUARIOS ?? 'usuarios.bin',
+  vagas: process.env.PONTE_ARQUIVO_VAGAS ?? 'vagas.bin',
+  acessos: process.env.PONTE_ARQUIVO_ACESSOS ?? 'acessos.bin',
+});
+
+/** Fábrica concreta da família em arquivo binário, um arquivo por entidade. */
+export class FabricaRepositoriosArquivo implements FabricaRepositorios {
+  constructor(private readonly caminhos: CaminhosArquivos = caminhosPadrao()) {}
+
+  criarRepositorioUsuarios() {
+    return new RepositorioUsuariosArquivo(this.caminhos.usuarios);
+  }
+
+  criarRepositorioVagas() {
+    return new RepositorioVagasArquivo(this.caminhos.vagas);
+  }
+
+  criarRepositorioAcessos() {
+    return new RepositorioAcessosArquivo(this.caminhos.acessos);
+  }
+}
 
 const tipoPadrao = (): TipoPersistencia =>
   (process.env.PONTE_PERSISTENCIA as TipoPersistencia | undefined) ?? 'ram';
@@ -15,33 +60,16 @@ function tipoDesconhecido(tipo: never): never {
 }
 
 /**
- * Seleciona o mecanismo de persistência no início da execução. Por padrão
- * usa RAM; defina PONTE_PERSISTENCIA=arquivo (e, opcionalmente,
- * PONTE_ARQUIVO_USUARIOS / PONTE_ARQUIVO_VAGAS) para persistir em arquivos binários locais.
+ * Seleciona, no início da execução, qual fábrica concreta usar. Por padrão usa RAM;
+ * defina PONTE_PERSISTENCIA=arquivo (e, opcionalmente, PONTE_ARQUIVO_USUARIOS,
+ * PONTE_ARQUIVO_VAGAS e PONTE_ARQUIVO_ACESSOS) para persistir em arquivos binários locais.
  */
-export function criarRepositorioUsuarios(
-  tipo: TipoPersistencia = tipoPadrao(),
-  caminhoArquivo: string = process.env.PONTE_ARQUIVO_USUARIOS ?? 'usuarios.bin',
-): RepositorioUsuarios {
+export function criarFabricaRepositorios(tipo: TipoPersistencia = tipoPadrao()): FabricaRepositorios {
   switch (tipo) {
     case 'arquivo':
-      return new RepositorioUsuariosArquivo(caminhoArquivo);
+      return new FabricaRepositoriosArquivo();
     case 'ram':
-      return new RepositorioUsuariosRAM();
-    default:
-      return tipoDesconhecido(tipo);
-  }
-}
-
-export function criarRepositorioVagas(
-  tipo: TipoPersistencia = tipoPadrao(),
-  caminhoArquivo: string = process.env.PONTE_ARQUIVO_VAGAS ?? 'vagas.bin',
-): RepositorioVagas {
-  switch (tipo) {
-    case 'arquivo':
-      return new RepositorioVagasArquivo(caminhoArquivo);
-    case 'ram':
-      return new RepositorioVagasRAM();
+      return new FabricaRepositoriosRAM();
     default:
       return tipoDesconhecido(tipo);
   }

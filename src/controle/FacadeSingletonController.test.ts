@@ -1,6 +1,15 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { FacadeSingletonController } from './FacadeSingletonController.js';
 import { EntidadeNaoEncontradaError } from '../entidades/erros/EntidadeNaoEncontradaError.js';
+import { NivelRegistro, Registrador } from '../entidades/Registrador.js';
+
+class RegistradorEmMemoria implements Registrador {
+  fechado = false;
+  registrar(_nivel: NivelRegistro, _mensagem: string, _contexto?: Record<string, unknown>): void {}
+  fechar(): void {
+    this.fechado = true;
+  }
+}
 
 const SENHA_VALIDA = 'Abcdef@1';
 
@@ -34,6 +43,15 @@ describe('FacadeSingletonController', () => {
     FacadeSingletonController.inicializar('ram');
 
     expect(() => FacadeSingletonController.inicializar('ram')).toThrow(/já foi inicializada/);
+  });
+
+  it('deve_fechar_o_registrador_ao_reiniciar', () => {
+    const registrador = new RegistradorEmMemoria();
+    FacadeSingletonController.inicializar('ram', registrador);
+
+    FacadeSingletonController.reiniciar();
+
+    expect(registrador.fechado).toBe(true);
   });
 
   it('deve_recusar_vaga_de_ong_inexistente_atraves_da_fachada', () => {
@@ -123,5 +141,15 @@ describe('FacadeSingletonController', () => {
     facade.publicarVaga(ong.id!, '2026-11-20', 'Centro Comunitário', 5, ['primeiros socorros']);
 
     expect(facade.contarEntidadesCadastradas()).toBe(3);
+  });
+
+  it('deve_entrar_e_gerar_relatorio_de_acessos_atraves_da_fachada', () => {
+    const facade = FacadeSingletonController.obterInstancia();
+    facade.cadastrarVoluntario('Rafael', 'rafael', SENHA_VALIDA, ['enfermagem'], 'manhãs', 'João Pessoa/PB');
+
+    facade.entrar('rafael', SENHA_VALIDA);
+    facade.entrar('rafael', SENHA_VALIDA);
+
+    expect(facade.gerarRelatorioAcessos('csv')).toMatch(/^Rafael,rafael,Voluntário,2,/m);
   });
 });
