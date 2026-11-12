@@ -1,5 +1,8 @@
+import { RepositorioAcessos } from '../entidades/RepositorioAcessos.js';
 import { RepositorioUsuarios } from '../entidades/RepositorioUsuarios.js';
 import { RepositorioVagas } from '../entidades/RepositorioVagas.js';
+import { RepositorioAcessosArquivo } from './RepositorioAcessosArquivo.js';
+import { RepositorioAcessosRAM } from './RepositorioAcessosRAM.js';
 import { RepositorioUsuariosArquivo } from './RepositorioUsuariosArquivo.js';
 import { RepositorioUsuariosRAM } from './RepositorioUsuariosRAM.js';
 import { RepositorioVagasArquivo } from './RepositorioVagasArquivo.js';
@@ -17,7 +20,8 @@ function tipoDesconhecido(tipo: never): never {
 /**
  * Seleciona o mecanismo de persistência no início da execução. Por padrão
  * usa RAM; defina PONTE_PERSISTENCIA=arquivo (e, opcionalmente,
- * PONTE_ARQUIVO_USUARIOS / PONTE_ARQUIVO_VAGAS) para persistir em arquivos binários locais.
+ * PONTE_ARQUIVO_USUARIOS / PONTE_ARQUIVO_VAGAS / PONTE_ARQUIVO_ACESSOS) para
+ * persistir em arquivos binários locais.
  */
 export function criarRepositorioUsuarios(
   tipo: TipoPersistencia = tipoPadrao(),
@@ -42,6 +46,20 @@ export function criarRepositorioVagas(
       return new RepositorioVagasArquivo(caminhoArquivo);
     case 'ram':
       return new RepositorioVagasRAM();
+    default:
+      return tipoDesconhecido(tipo);
+  }
+}
+
+export function criarRepositorioAcessos(
+  tipo: TipoPersistencia = tipoPadrao(),
+  caminhoArquivo: string = process.env.PONTE_ARQUIVO_ACESSOS ?? 'acessos.bin',
+): RepositorioAcessos {
+  switch (tipo) {
+    case 'arquivo':
+      return new RepositorioAcessosArquivo(caminhoArquivo);
+    case 'ram':
+      return new RepositorioAcessosRAM();
     default:
       return tipoDesconhecido(tipo);
   }

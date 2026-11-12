@@ -2,7 +2,9 @@ import { rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
-import { criarRepositorioUsuarios, criarRepositorioVagas } from './fabricaRepositorios.js';
+import { criarRepositorioAcessos, criarRepositorioUsuarios, criarRepositorioVagas } from './fabricaRepositorios.js';
+import { RepositorioAcessosArquivo } from './RepositorioAcessosArquivo.js';
+import { RepositorioAcessosRAM } from './RepositorioAcessosRAM.js';
 import { RepositorioUsuariosArquivo } from './RepositorioUsuariosArquivo.js';
 import { RepositorioUsuariosRAM } from './RepositorioUsuariosRAM.js';
 import { RepositorioVagasArquivo } from './RepositorioVagasArquivo.js';
@@ -41,5 +43,21 @@ describe('criarRepositorioVagas', () => {
 
   it('deve_lancar_erro_para_tipo_de_persistencia_de_vagas_desconhecido', () => {
     expect(() => criarRepositorioVagas('invalido' as never)).toThrow();
+  });
+});
+
+describe('criarRepositorioAcessos', () => {
+  it('deve_criar_repositorio_de_acessos_em_ram', () => {
+    expect(criarRepositorioAcessos('ram')).toBeInstanceOf(RepositorioAcessosRAM);
+  });
+
+  it('deve_criar_repositorio_de_acessos_em_arquivo_quando_solicitado', () => {
+    expect(criarRepositorioAcessos('arquivo', join(tmpdir(), 'ponte-acessos.bin'))).toBeInstanceOf(
+      RepositorioAcessosArquivo,
+    );
+  });
+
+  it('deve_lancar_erro_para_tipo_de_persistencia_de_acessos_desconhecido', () => {
+    expect(() => criarRepositorioAcessos('invalido' as never)).toThrow();
   });
 });
