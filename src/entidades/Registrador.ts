@@ -6,4 +6,6 @@ export type NivelRegistro = 'informacao' | 'aviso' | 'erro';
  */
 export interface Registrador {
   registrar(nivel: NivelRegistro, mensagem: string, contexto?: Record<string, unknown>): void;
+  /** Libera os recursos do destino de log (ex.: arquivo aberto). Chamado ao descartar a fachada. */
+  fechar(): void;
 }

@@ -1,6 +1,15 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { FacadeSingletonController } from './FacadeSingletonController.js';
 import { EntidadeNaoEncontradaError } from '../entidades/erros/EntidadeNaoEncontradaError.js';
+import { NivelRegistro, Registrador } from '../entidades/Registrador.js';
+
+class RegistradorEmMemoria implements Registrador {
+  fechado = false;
+  registrar(_nivel: NivelRegistro, _mensagem: string, _contexto?: Record<string, unknown>): void {}
+  fechar(): void {
+    this.fechado = true;
+  }
+}
 
 const SENHA_VALIDA = 'Abcdef@1';
 
@@ -34,6 +43,15 @@ describe('FacadeSingletonController', () => {
     FacadeSingletonController.inicializar('ram');
 
     expect(() => FacadeSingletonController.inicializar('ram')).toThrow(/já foi inicializada/);
+  });
+
+  it('deve_fechar_o_registrador_ao_reiniciar', () => {
+    const registrador = new RegistradorEmMemoria();
+    FacadeSingletonController.inicializar('ram', registrador);
+
+    FacadeSingletonController.reiniciar();
+
+    expect(registrador.fechado).toBe(true);
   });
 
   it('deve_recusar_vaga_de_ong_inexistente_atraves_da_fachada', () => {
