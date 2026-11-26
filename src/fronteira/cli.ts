@@ -16,6 +16,7 @@ const MENU = `
 [4] Remover usuário         [8] Remover vaga
 [9] Quantidade de entidades cadastradas
 [10] Entrar (login)         [11] Relatório de acessos
+[12] Desfazer última atualização de vaga
 [0] Sair`;
 
 const terminal = createInterface({ input: stdin });
@@ -113,6 +114,10 @@ async function executar(opcao: string, fachada: FacadeSingletonController): Prom
       console.log(`Relatório salvo em ${arquivo}.`);
       return;
     }
+    case '12':
+      fachada.desfazerUltimaAtualizacaoDeVaga();
+      console.log('Última atualização de vaga desfeita.');
+      return;
     default:
       console.log('Opção inválida.');
   }
