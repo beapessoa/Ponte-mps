@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { FacadeSingletonController } from './FacadeSingletonController.js';
 import { EntidadeNaoEncontradaError } from '../entidades/erros/EntidadeNaoEncontradaError.js';
+import { NadaParaDesfazerError } from '../entidades/erros/NadaParaDesfazerError.js';
 import { NivelRegistro, Registrador } from '../entidades/Registrador.js';
 
 class RegistradorEmMemoria implements Registrador {
@@ -151,5 +152,63 @@ describe('FacadeSingletonController', () => {
     facade.entrar('rafael', SENHA_VALIDA);
 
     expect(facade.gerarRelatorioAcessos('csv')).toMatch(/^Rafael,rafael,Voluntário,2,/m);
+  });
+  describe('desfazer a última atualização de vaga (Command + Memento)', () => {
+    const publicar = (facade: FacadeSingletonController) => {
+      const ong = facade.cadastrarONG('Casa Amiga', 'casaamiga', SENHA_VALIDA, 'Educação', 'Reforço escolar');
+      return facade.publicarVaga(ong.id!, '2026-11-20', 'Centro Comunitário', 5, ['primeiros socorros']);
+    };
+
+    it('deve_restaurar_todos_os_campos_da_vaga_ao_desfazer', () => {
+      const facade = FacadeSingletonController.obterInstancia();
+      const vaga = publicar(facade);
+
+      facade.atualizarVaga(vaga.id!, { local: 'Escola', quantidadeVagas: 9, habilidadesExigidas: ['ensino'] });
+      facade.desfazerUltimaAtualizacaoDeVaga();
+
+      expect(facade.buscarVaga(vaga.id!)).toMatchObject({
+        data: '2026-11-20',
+        local: 'Centro Comunitário',
+        quantidadeVagas: 5,
+        habilidadesExigidas: ['primeiros socorros'],
+      });
+    });
+
+    it('deve_desfazer_so_a_ultima_de_duas_atualizacoes', () => {
+      const facade = FacadeSingletonController.obterInstancia();
+      const vaga = publicar(facade);
+      facade.atualizarVaga(vaga.id!, { quantidadeVagas: 8 });
+      facade.atualizarVaga(vaga.id!, { quantidadeVagas: 12 });
+
+      facade.desfazerUltimaAtualizacaoDeVaga();
+
+      expect(facade.buscarVaga(vaga.id!)?.quantidadeVagas).toBe(8);
+      expect(() => facade.desfazerUltimaAtualizacaoDeVaga()).toThrow(NadaParaDesfazerError);
+    });
+
+    it('deve_lancar_erro_quando_nenhuma_vaga_foi_atualizada', () => {
+      const facade = FacadeSingletonController.obterInstancia();
+      publicar(facade);
+
+      expect(() => facade.desfazerUltimaAtualizacaoDeVaga()).toThrow(NadaParaDesfazerError);
+    });
+
+    it('deve_nao_guardar_atualizacao_recusada_por_dados_invalidos', () => {
+      const facade = FacadeSingletonController.obterInstancia();
+      const vaga = publicar(facade);
+
+      expect(() => facade.atualizarVaga(vaga.id!, { local: '' })).toThrow();
+
+      expect(() => facade.desfazerUltimaAtualizacaoDeVaga()).toThrow(NadaParaDesfazerError);
+    });
+
+    it('deve_lancar_erro_ao_desfazer_se_a_vaga_foi_removida', () => {
+      const facade = FacadeSingletonController.obterInstancia();
+      const vaga = publicar(facade);
+      facade.atualizarVaga(vaga.id!, { quantidadeVagas: 8 });
+      facade.removerVaga(vaga.id!);
+
+      expect(() => facade.desfazerUltimaAtualizacaoDeVaga()).toThrow(EntidadeNaoEncontradaError);
+    });
   });
 });
