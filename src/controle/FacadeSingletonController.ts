@@ -10,11 +10,26 @@ import { ControladorAcessos, FormatoRelatorio } from './ControladorAcessos.js';
 import { ControladorCadastro } from './ControladorCadastro.js';
 import { ControladorListagem } from './ControladorListagem.js';
 import { ControladorVagas } from './ControladorVagas.js';
+import { Invocador } from './comandos/Comando.js';
+import {
+  ComandoAtualizarONG,
+  ComandoAtualizarVaga,
+  ComandoAtualizarVoluntario,
+  ComandoCadastrarONG,
+  ComandoCadastrarVoluntario,
+  ComandoEntrar,
+  ComandoGerarRelatorioAcessos,
+  ComandoPublicarVaga,
+  ComandoRemoverUsuario,
+  ComandoRemoverVaga,
+} from './comandos/ComandosFachada.js';
 
 /**
  * Fachada única (Facade) para os Controllers do sistema, acessível por uma
  * única instância compartilhada (Singleton). Unifica cadastro/listagem de
- * usuários, o CRUD de vagas e os acessos atrás de uma única API.
+ * usuários, o CRUD de vagas e os acessos atrás de uma única API. As operações
+ * que alteram estado ou autenticam viram Comandos (Command) executados por um
+ * `Invocador`, que também desfaz a última atualização de vaga (Memento).
  */
 export class FacadeSingletonController {
   private static instancia: FacadeSingletonController | undefined;
@@ -23,6 +38,7 @@ export class FacadeSingletonController {
   private readonly controladorListagem: ControladorListagem;
   private readonly controladorVagas: ControladorVagas;
   private readonly controladorAcessos: ControladorAcessos;
+  private readonly invocador = new Invocador();
 
   private constructor(
     fabrica: FabricaRepositorios,
@@ -69,7 +85,9 @@ export class FacadeSingletonController {
   }
 
   cadastrarONG(nome: string, login: string, senha: string, areaAtuacao: string, descricao: string): Ong {
-    return this.controladorCadastro.cadastrarONG(nome, login, senha, areaAtuacao, descricao);
+    return this.invocador.executar(
+      new ComandoCadastrarONG(this.controladorCadastro, nome, login, senha, areaAtuacao, descricao),
+    );
   }
 
   cadastrarVoluntario(
@@ -80,13 +98,8 @@ export class FacadeSingletonController {
     disponibilidade: string,
     localizacao: string,
   ): Voluntario {
-    return this.controladorCadastro.cadastrarVoluntario(
-      nome,
-      login,
-      senha,
-      habilidades,
-      disponibilidade,
-      localizacao,
+    return this.invocador.executar(
+      new ComandoCadastrarVoluntario(this.controladorCadastro, nome, login, senha, habilidades, disponibilidade, localizacao),
     );
   }
 
@@ -102,7 +115,9 @@ export class FacadeSingletonController {
     areaAtuacao: string,
     descricao: string,
   ): Ong {
-    return this.controladorCadastro.atualizarONG(id, nome, login, senha, areaAtuacao, descricao);
+    return this.invocador.executar(
+      new ComandoAtualizarONG(this.controladorCadastro, id, nome, login, senha, areaAtuacao, descricao),
+    );
   }
 
   atualizarVoluntario(
@@ -114,19 +129,13 @@ export class FacadeSingletonController {
     disponibilidade: string,
     localizacao: string,
   ): Voluntario {
-    return this.controladorCadastro.atualizarVoluntario(
-      id,
-      nome,
-      login,
-      senha,
-      habilidades,
-      disponibilidade,
-      localizacao,
+    return this.invocador.executar(
+      new ComandoAtualizarVoluntario(this.controladorCadastro, id, nome, login, senha, habilidades, disponibilidade, localizacao),
     );
   }
 
   removerUsuario(id: number): void {
-    this.controladorCadastro.removerUsuario(id);
+    this.invocador.executar(new ComandoRemoverUsuario(this.controladorCadastro, id));
   }
 
   publicarVaga(
@@ -136,7 +145,9 @@ export class FacadeSingletonController {
     quantidadeVagas: number,
     habilidadesExigidas: string[],
   ): Vaga {
-    return this.controladorVagas.publicarVaga(ongId, data, local, quantidadeVagas, habilidadesExigidas);
+    return this.invocador.executar(
+      new ComandoPublicarVaga(this.controladorVagas, ongId, data, local, quantidadeVagas, habilidadesExigidas),
+    );
   }
 
   buscarVaga(id: number): Vaga | undefined {
@@ -148,19 +159,24 @@ export class FacadeSingletonController {
   }
 
   atualizarVaga(id: number, dados: Partial<Pick<Vaga, 'data' | 'local' | 'quantidadeVagas' | 'habilidadesExigidas'>>): Vaga {
-    return this.controladorVagas.atualizarVaga(id, dados);
+    return this.invocador.executar(new ComandoAtualizarVaga(this.controladorVagas, id, dados));
+  }
+
+  /** Desfaz a última atualização de vaga feita por esta fachada (só um nível, sem refazer). */
+  desfazerUltimaAtualizacaoDeVaga(): void {
+    this.invocador.desfazerUltimo();
   }
 
   removerVaga(id: number): void {
-    this.controladorVagas.removerVaga(id);
+    this.invocador.executar(new ComandoRemoverVaga(this.controladorVagas, id));
   }
 
   entrar(login: string, senha: string): Omit<Usuario, 'senha'> {
-    return this.controladorAcessos.entrar(login, senha);
+    return this.invocador.executar(new ComandoEntrar(this.controladorAcessos, login, senha));
   }
 
   gerarRelatorioAcessos(formato: FormatoRelatorio): string {
-    return this.controladorAcessos.gerarRelatorio(formato);
+    return this.invocador.executar(new ComandoGerarRelatorioAcessos(this.controladorAcessos, formato));
   }
 
   /** Quantidade total de entidades cadastradas no sistema (usuários + vagas). */

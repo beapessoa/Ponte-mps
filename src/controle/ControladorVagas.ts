@@ -2,6 +2,7 @@ import { Ong } from '../entidades/Ong.js';
 import { RepositorioUsuarios } from '../entidades/RepositorioUsuarios.js';
 import { RepositorioVagas } from '../entidades/RepositorioVagas.js';
 import { Vaga } from '../entidades/Vaga.js';
+import { VagaMemento } from '../entidades/VagaMemento.js';
 import { CamposObrigatoriosError } from '../entidades/erros/ErroDeValidacao.js';
 import { EntidadeNaoEncontradaError } from '../entidades/erros/EntidadeNaoEncontradaError.js';
 
@@ -53,6 +54,16 @@ export class ControladorVagas {
     const atualizada = { ...vaga, ...dados };
     validarCampos(atualizada);
     Object.assign(vaga, atualizada);
+    return this.repositorio.atualizar(vaga);
+  }
+
+  /** Devolve a vaga ao estado guardado no memento (usado para desfazer uma atualização). */
+  restaurarVaga(id: number, memento: VagaMemento): Vaga {
+    const vaga = this.repositorio.buscarPorId(id);
+    if (!vaga) {
+      throw new EntidadeNaoEncontradaError(`Vaga ${id} não encontrada.`);
+    }
+    vaga.restaurar(memento);
     return this.repositorio.atualizar(vaga);
   }
 
