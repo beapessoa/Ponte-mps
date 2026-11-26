@@ -10,6 +10,7 @@ src/
 │   ├── erros/           ← ErroDeValidacao, ErroDePersistencia, CredenciaisInvalidasError…
 │   └── validacao/        ← ValidadorCredenciais (login, senha)
 ├── controle/            ← business: orquestram casos de uso, chamando as entidades
+│   ├── comandos/         ← Command da fachada (Comando, Invocador, comandos) e Memento do desfazer
 │   └── relatorios/       ← Template Method do relatório de acessos (HTML, CSV)
 ├── infra/              ← adaptadores das portas: repositórios RAM/arquivo, fábricas, log (pino)
 └── fronteira/          ← interface com o usuário: hoje uma CLI (`cli.ts`), que só usa a fachada
@@ -21,7 +22,7 @@ src/
 
 ## 2. Diagrama de classes de projeto
 
-### Estado atual: Sprints 1 a 4 (usuários, vagas, fachada, acessos e relatórios)
+### Estado atual: Sprints 1 a 5 (usuários, vagas, fachada, acessos, relatórios e desfazer)
 
 O diagrama separa a camada **business** (entidades e controle) da camada **infra** em todas as entidades. Para não poluir, as exceções aparecem no diagrama seguinte.
 
@@ -48,6 +49,14 @@ classDiagram
         class Vaga {
             +id: number
             +ongId: number
+            +data: string
+            +local: string
+            +quantidadeVagas: number
+            +habilidadesExigidas: string[]
+            +criarMemento() VagaMemento
+            +restaurar(memento) void
+        }
+        class VagaMemento {
             +data: string
             +local: string
             +quantidadeVagas: number
@@ -99,6 +108,28 @@ classDiagram
             +contarEntidadesCadastradas() number
             +entrar(login, senha) UsuarioSemSenha
             +gerarRelatorioAcessos(formato) string
+            +desfazerUltimaAtualizacaoDeVaga() void
+        }
+        class Comando {
+            <<interface>>
+            +executar() R
+        }
+        class ComandoDesfazivel {
+            <<interface>>
+            +desfazer() void
+        }
+        class Invocador {
+            -ultimoDesfazivel: ComandoDesfazivel
+            +executar(comando) R
+            +desfazerUltimo() void
+        }
+        class ComandoAtualizarVaga {
+            -anterior: VagaMemento
+            +executar() Vaga
+            +desfazer() void
+        }
+        class OutrosComandos["Comandos da fachada (9)"] {
+            +executar() R
         }
         class ControladorCadastro {
             +cadastrarONG(nome, login, senha, areaAtuacao, descricao) Ong
@@ -116,6 +147,7 @@ classDiagram
             +listarVagas() Vaga[]
             +atualizarVaga(id, dados) Vaga
             +removerVaga(id) void
+            +restaurarVaga(id, memento) Vaga
         }
         class ControladorAcessos {
             -agora: Relogio
@@ -164,6 +196,11 @@ classDiagram
     Usuario <|-- Ong
     Usuario <|-- Voluntario
     Vaga --> Ong : ongId
+    Vaga ..> VagaMemento : cria e restaura
+    Comando <|.. OutrosComandos
+    Comando <|-- ComandoDesfazivel
+    ComandoDesfazivel <|.. ComandoAtualizarVaga
+    ComandoAtualizarVaga ..> VagaMemento : guarda o estado anterior
     Acesso --> Usuario : usuarioId
 
     RepositorioUsuarios <|.. RepositorioUsuariosRAM
@@ -188,6 +225,13 @@ classDiagram
     FacadeSingletonController *-- ControladorListagem
     FacadeSingletonController *-- ControladorVagas
     FacadeSingletonController *-- ControladorAcessos
+    FacadeSingletonController *-- Invocador
+    FacadeSingletonController ..> Comando : monta e entrega ao invocador
+    Invocador ..> Comando : executa
+    Invocador o-- ComandoDesfazivel : último desfazível
+    ComandoAtualizarVaga ..> ControladorVagas : receptor
+    OutrosComandos ..> ControladorCadastro : receptor
+    OutrosComandos ..> ControladorAcessos : receptor
     ControladorCadastro ..> RepositorioUsuarios
     ControladorListagem ..> RepositorioUsuarios
     ControladorVagas ..> RepositorioVagas
@@ -217,6 +261,7 @@ classDiagram
     ErroDePersistencia <|-- ErroDeArquivo
     class EntidadeNaoEncontradaError
     class CredenciaisInvalidasError
+    class NadaParaDesfazerError
 
     Usuario ..> ErroDeValidacao : lança
     ControladorCadastro ..> CamposObrigatoriosError : lança
@@ -224,6 +269,7 @@ classDiagram
     ControladorCadastro ..> EntidadeNaoEncontradaError : lança
     ControladorVagas ..> EntidadeNaoEncontradaError : lança
     ControladorAcessos ..> CredenciaisInvalidasError : lança
+    Invocador ..> NadaParaDesfazerError : lança
     RepositorioUsuariosArquivo ..> ErroDeArquivo : lança
     RepositorioVagasArquivo ..> ErroDeArquivo : lança
     RepositorioAcessosArquivo ..> ErroDeArquivo : lança
@@ -231,7 +277,7 @@ classDiagram
     RepositorioVagas ..> EntidadeNaoEncontradaError : lança
 ```
 
-`criarFabricaRepositorios(tipo)` (função, por isso fora do diagrama) escolhe a fábrica concreta no início da execução — ver [ADR-0003](07-arquitetura/adr/0003-repository-abstract-factory.md). `FacadeSingletonController` concentra o acesso aos quatro controladores atrás de uma única instância compartilhada — ver [ADR-0002](07-arquitetura/adr/0002-facade-singleton-controller.md). A leitura e gravação dos arquivos binários fica em `infra/arquivoBinario.ts`, compartilhado pelos três repositórios em arquivo. O log vai para `ponte.log` pelo `AdaptadorRegistradorPino` — ver [ADR-0004](07-arquitetura/adr/0004-adapter-log.md).
+`criarFabricaRepositorios(tipo)` (função, por isso fora do diagrama) escolhe a fábrica concreta no início da execução — ver [ADR-0003](07-arquitetura/adr/0003-repository-abstract-factory.md). `FacadeSingletonController` concentra o acesso aos quatro controladores atrás de uma única instância compartilhada — ver [ADR-0002](07-arquitetura/adr/0002-facade-singleton-controller.md). Na Sprint 5, as operações que alteram estado passam por comandos executados pelo `Invocador` — ver [ADR-0005](07-arquitetura/adr/0005-facade-baseada-em-command.md) — e a atualização de vaga guarda um `VagaMemento` para ser desfeita — ver [ADR-0006](07-arquitetura/adr/0006-memento-desfazer-atualizacao-de-vaga.md). As consultas da fachada chamam o controlador direto e, para não poluir, não aparecem no diagrama. A leitura e gravação dos arquivos binários fica em `infra/arquivoBinario.ts`, compartilhado pelos três repositórios em arquivo. O log vai para `ponte.log` pelo `AdaptadorRegistradorPino` — ver [ADR-0004](07-arquitetura/adr/0004-adapter-log.md).
 
 ## 3. Padrões de projeto utilizados
 
@@ -246,5 +292,5 @@ Uma linha por padrão aplicado. Cada padrão relevante também tem um ADR.
 | Abstract Factory | S4 | `FabricaRepositorios` (fábrica abstrata); `FabricaRepositoriosRAM` e `FabricaRepositoriosArquivo` (fábricas concretas); os repositórios (produtos) | Criar a família inteira de repositórios de um mesmo mecanismo, impedindo misturar RAM e arquivo na mesma execução | [ADR-0003](07-arquitetura/adr/0003-repository-abstract-factory.md) |
 | Adapter | S4 | `Registrador` (alvo); `AdaptadorRegistradorPino` (adaptador); `pino.Logger` (adaptado); `ControladorAcessos` (cliente) | Usar a biblioteca de log pino sem acoplar o negócio à interface dela | [ADR-0004](07-arquitetura/adr/0004-adapter-log.md) |
 | Template Method | S4 | `RelatorioAcessos.gerar()` (método template) e `calcularEstatisticas` (passo fixo); `RelatorioAcessosHTML` e `RelatorioAcessosCSV` implementam `cabecalho`, `linha` e `rodape` | Gerar o relatório de acessos em mais de um formato sem duplicar o cálculo das estatísticas | — (decisão local, registrada no design do change `relatorio-de-acessos`) |
-| Command | S5 | | | |
-| Memento | S5 | | | |
+| Command | S5 | `Comando` / `ComandoDesfazivel` (interfaces); os dez comandos de `ComandosFachada.ts` (comandos concretos); `Invocador` (invoker); os controladores (receptores); `FacadeSingletonController` (cliente) | Tratar cada operação da fachada como objeto, para poder guardar a última atualização e desfazê-la sem a fachada conhecer o como | [ADR-0005](07-arquitetura/adr/0005-facade-baseada-em-command.md) |
+| Memento | S5 | `Vaga` (originator, `criarMemento`/`restaurar`); `VagaMemento` (memento imutável); `ComandoAtualizarVaga` e `Invocador` (caretaker) | Desfazer a última atualização de vaga devolvendo todos os campos editáveis ao estado anterior | [ADR-0006](07-arquitetura/adr/0006-memento-desfazer-atualizacao-de-vaga.md) |
